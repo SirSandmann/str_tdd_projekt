@@ -1,40 +1,86 @@
 package model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import javax.naming.directory.AttributeInUseException;
 
 public class Event {
+	//Added for verifying that Events have a unique Identifier 
+	private static ArrayList<Event> events = new ArrayList<Event>();
+	
 	private String identificator;
 	private String title;
 	private LocalDate dateAndTime;
 	private double ticketprice;
 	private int availableSeatsOverall; 
-
-	public String getIdentifikator() {
-		return identificator;
+	
+	public Event() throws AttributeInUseException {
+		this("");
+	}
+	
+	public Event(String title) throws AttributeInUseException{
+		this(title, null);
+	}
+	
+	public Event(String title, LocalDate dateAndTime) throws AttributeInUseException{
+		this(title, dateAndTime, 0.0);
+	}
+	
+	public Event(String title, LocalDate dateAndTime, double ticketprice) throws AttributeInUseException{
+		this(title, dateAndTime, ticketprice, 0);
+	}
+	
+	public Event(String title, LocalDate dateAndTime, double ticketprice, int availableSeatsOverall) throws AttributeInUseException{
+		this.setTitle(title);
+		this.setDateAndTime(dateAndTime);
+		this.setTicketprice(ticketprice);
+		this.setAvailableSeatsOverall(availableSeatsOverall);
+		setDefaultIdenticator();
+		events.add(this);
+	}
+	
+	public void setDefaultIdenticator() throws AttributeInUseException{
+		this.setIdentificator(UUID.randomUUID().toString());
 	}
 
 	public String getIdentificator() {
 		return identificator;
 	}
 
-	public void setIdentificator(String identificator) {
-		this.identificator = identificator;
+	public void setIdentificator(String identificator) throws AttributeInUseException {
+		if(isIdentificatorUnique(identificator)){
+			this.identificator = identificator;
+		}else{
+			throw new AttributeInUseException();
+		}
 	}
 
 	public String getTitle() {
 		return title;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setTitle(String title) throws AttributeInUseException {
+		if(isTitleAndDateUnique(title)){
+			this.title = title;
+		}else{
+			throw new AttributeInUseException();
+		}
 	}
 
 	public LocalDate getDateAndTime() {
 		return dateAndTime;
 	}
 
-	public void setDateAndTime(LocalDate dateAndTime) {
-		this.dateAndTime = dateAndTime;
+	public void setDateAndTime(LocalDate dateAndTime) throws AttributeInUseException {
+		if(isTitleAndDateUnique(dateAndTime)){
+			this.dateAndTime = dateAndTime;
+		}else{
+			throw new AttributeInUseException();
+		}
+		
 	}
 
 	public double getTicketprice() {
@@ -52,9 +98,42 @@ public class Event {
 	public void setAvailableSeatsOverall(int availableSeatsOverall) {
 		this.availableSeatsOverall = availableSeatsOverall;
 	}
-
-	public void setIdentifikator(String identifikator) {
-		this.identificator = identifikator;
+	
+	//method for checking if the identifier is unique
+	private boolean isIdentificatorUnique(String s){
+		for(Event e : getEvents()) {
+            if( e.getIdentificator().equals(s) ) {
+                return false;
+            }
+        }
+		return true;
+	}
+	
+	public boolean isTitleAndDateUnique(String s){
+		return isTitleAndDateUnique(s, this.getDateAndTime());
+	}
+	
+	public boolean isTitleAndDateUnique(LocalDate d){
+		return isTitleAndDateUnique(this.getTitle(), d);
+	}
+	
+	public boolean isTitleAndDateUnique(String title, LocalDate date){
+		for(Event e : getEvents()) {
+			if(e.getTitle() != null && e.getDateAndTime() != null){
+	            if( e.getTitle().equals(title) && e.getDateAndTime().equals(date)) {
+	                return false;
+	            }
+			}
+        }
+		return true;
+	}
+	
+	public static List<Event> getEvents() {
+		return events;
+	}
+	
+	public static void clearAllEvents(){
+		events.clear();
 	}
 	
 }
