@@ -6,10 +6,9 @@ import static org.junit.Assert.assertTrue;
 import java.time.LocalDate;
 
 import javax.naming.NamingException;
-import javax.naming.NamingSecurityException;
 import javax.naming.directory.AttributeInUseException;
-import javax.naming.event.NamingExceptionEvent;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
@@ -22,6 +21,12 @@ public class TestEventClass {
 	// name accessable in all test methods with the name
 	@Rule
 	public TestName testName = new TestName();
+	
+	//clean the array List before Tests
+	@Before
+	public void cleanEventList(){
+		Event.clearAllEvents();
+	}
 
 	/*
 	 * Following Getter and Setter Methods the getter and setter are verified
@@ -46,7 +51,7 @@ public class TestEventClass {
 	}
 
 	@Test
-	public void testGetterAndSetter_Titel() throws NoSuchMethodException, SecurityException {
+	public void testGetterAndSetter_Titel() throws NoSuchMethodException, SecurityException, AttributeInUseException {
 		// create event use methodname as title
 		final Event event = new Event();
 
@@ -60,7 +65,7 @@ public class TestEventClass {
 	}
 
 	@Test
-	public void testGetterAndSetter_DateAndTime() throws NoSuchMethodException, SecurityException {
+	public void testGetterAndSetter_DateAndTime() throws NoSuchMethodException, SecurityException, AttributeInUseException {
 		// create event and LocalDate to compare with
 		final Event event = new Event();
 		final LocalDate dateAndTime = LocalDate.now();
@@ -75,7 +80,8 @@ public class TestEventClass {
 	}
 
 	@Test
-	public void testGetterAndSetter_Ticketprice() throws NoSuchMethodException, SecurityException {
+	public void testGetterAndSetter_Ticketprice()
+			throws NoSuchMethodException, SecurityException, AttributeInUseException {
 		// create event and ticketprice
 		final Event event = new Event();
 		final double ticketprice = 59.99;
@@ -90,7 +96,8 @@ public class TestEventClass {
 	}
 
 	@Test
-	public void testGetterAndSetter_AvailableSeatsOverall() throws NoSuchMethodException, SecurityException {
+	public void testGetterAndSetter_AvailableSeatsOverall()
+			throws NoSuchMethodException, SecurityException, AttributeInUseException {
 		// create event and ticketprice
 		final Event event = new Event();
 		final int availableSeatsOverall = 5999;
@@ -103,17 +110,29 @@ public class TestEventClass {
 		int result = event.getAvailableSeatsOverall();
 		assertEquals("Retrieved wrong value", availableSeatsOverall, result);
 	}
-	
+
 	/*
 	 * Identifier must be unique
 	 */
 	@Test(expected = AttributeInUseException.class)
 	public void testUnique_Identifier() throws AttributeInUseException {
-		String duplicate = "duplicatedIdentifier";
 		final Event event1 = new Event();
-		event1.setIdentificator(duplicate);
+		event1.setIdentificator(testName.toString());
 		final Event event2 = new Event();
-		event2.setIdentificator(duplicate);
+		event2.setIdentificator(testName.toString());
+	}
+	
+	/*
+	 * There cannot be the same event on the same date
+	 * null values either for Title or for the date will be ignored in this case
+	 */
+	@Test(expected = AttributeInUseException.class)
+	public void testUnique_NameAndDateEvent() throws AttributeInUseException{
+		LocalDate dateAndTime = LocalDate.now();
+		@SuppressWarnings("unused")
+		final Event event1 = new Event("Konzert_Udo", dateAndTime);
+		@SuppressWarnings("unused")
+		final Event event2 = new Event("Konzert_Udo", dateAndTime);
 	}
 
 }

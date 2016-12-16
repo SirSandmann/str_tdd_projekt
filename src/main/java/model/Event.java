@@ -17,12 +17,33 @@ public class Event {
 	private double ticketprice;
 	private int availableSeatsOverall; 
 	
-	public Event(){
-		this(UUID.randomUUID().toString());
+	public Event() throws AttributeInUseException {
+		this("");
 	}
 	
-	public Event(String identificator){
+	public Event(String title) throws AttributeInUseException{
+		this(title, null);
+	}
+	
+	public Event(String title, LocalDate dateAndTime) throws AttributeInUseException{
+		this(title, dateAndTime, 0.0);
+	}
+	
+	public Event(String title, LocalDate dateAndTime, double ticketprice) throws AttributeInUseException{
+		this(title, dateAndTime, ticketprice, 0);
+	}
+	
+	public Event(String title, LocalDate dateAndTime, double ticketprice, int availableSeatsOverall) throws AttributeInUseException{
+		this.setTitle(title);
+		this.setDateAndTime(dateAndTime);
+		this.setTicketprice(ticketprice);
+		this.setAvailableSeatsOverall(availableSeatsOverall);
+		setDefaultIdenticator();
 		events.add(this);
+	}
+	
+	public void setDefaultIdenticator() throws AttributeInUseException{
+		this.setIdentificator(UUID.randomUUID().toString());
 	}
 
 	public String getIdentificator() {
@@ -41,16 +62,25 @@ public class Event {
 		return title;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setTitle(String title) throws AttributeInUseException {
+		if(isTitleAndDateUnique(title)){
+			this.title = title;
+		}else{
+			throw new AttributeInUseException();
+		}
 	}
 
 	public LocalDate getDateAndTime() {
 		return dateAndTime;
 	}
 
-	public void setDateAndTime(LocalDate dateAndTime) {
-		this.dateAndTime = dateAndTime;
+	public void setDateAndTime(LocalDate dateAndTime) throws AttributeInUseException {
+		if(isTitleAndDateUnique(dateAndTime)){
+			this.dateAndTime = dateAndTime;
+		}else{
+			throw new AttributeInUseException();
+		}
+		
 	}
 
 	public double getTicketprice() {
@@ -72,15 +102,38 @@ public class Event {
 	//method for checking if the identifier is unique
 	private boolean isIdentificatorUnique(String s){
 		for(Event e : getEvents()) {
-            if(e.getIdentificator() == s ) {
+            if( e.getIdentificator().equals(s) ) {
                 return false;
             }
         }
 		return true;
 	}
 	
+	public boolean isTitleAndDateUnique(String s){
+		return isTitleAndDateUnique(s, this.getDateAndTime());
+	}
+	
+	public boolean isTitleAndDateUnique(LocalDate d){
+		return isTitleAndDateUnique(this.getTitle(), d);
+	}
+	
+	public boolean isTitleAndDateUnique(String title, LocalDate date){
+		for(Event e : getEvents()) {
+			if(e.getTitle() != null && e.getDateAndTime() != null){
+	            if( e.getTitle().equals(title) && e.getDateAndTime().equals(date)) {
+	                return false;
+	            }
+			}
+        }
+		return true;
+	}
+	
 	public static List<Event> getEvents() {
 		return events;
+	}
+	
+	public static void clearAllEvents(){
+		events.clear();
 	}
 	
 }
