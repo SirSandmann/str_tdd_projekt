@@ -18,6 +18,13 @@ public class TestEventClass {
 	@Rule
 	public TestName testName = new TestName();
 
+	/*
+	 * Following Getter and Setter Methods
+	 * the getter and setter are verified through 
+	 * - verifying that a getter and setter method exists
+	 * - run setter
+	 * - retrieve value from the getter and compare with the one in the setter method
+	 */
 	@Test
 	public void testGetterAndSetter_Identificator() throws NoSuchMethodException, SecurityException {
 		// create event use methodname as identificator
@@ -25,6 +32,7 @@ public class TestEventClass {
 
 		// assert method getIdentifikator exists and set value
 		assertTrue(event.getClass().getMethod("getIdentifikator") != null);
+		assertTrue(event.getClass().getMethod("setIdentifikator", String.class) != null);
 		event.setIdentifikator(testName.toString());
 		
 		String result = event.getIdentifikator();
@@ -39,6 +47,7 @@ public class TestEventClass {
 
 		// assert method getIdentifikator exists and set value
 		assertTrue(event.getClass().getMethod("getTitle") != null);
+		assertTrue(event.getClass().getMethod("setTitle", String.class) != null);
 		event.setTitle(testName.toString());
 		
 		String result = event.getTitle();
@@ -53,6 +62,7 @@ public class TestEventClass {
 
 		// assert method getIdentifikator exists and set value
 		assertTrue(event.getClass().getMethod("getDateAndTime") != null);
+		assertTrue(event.getClass().getMethod("setDateAndTime", LocalDate.class) != null);
 		event.setDateAndTime(dateAndTime);
 		
 		LocalDate result = event.getDateAndTime();
@@ -67,6 +77,7 @@ public class TestEventClass {
 
 		// assert method getIdentifikator exists and set value
 		assertTrue(event.getClass().getMethod("getTicketprice") != null);
+		assertTrue(event.getClass().getMethod("setTicketprice", double.class) != null);
 		event.setTicketprice(ticketprice);
 		
 		double result = event.getTicketprice();
@@ -81,6 +92,7 @@ public class TestEventClass {
 
 		// assert method getIdentifikator exists and set value
 		assertTrue(event.getClass().getMethod("getAvailableSeatsOverall") != null);
+		assertTrue(event.getClass().getMethod("setAvailableSeatsOverall", int.class) != null);
 		event.setAvailableSeatsOverall(availableSeatsOverall);
 		
 		int result = event.getAvailableSeatsOverall();
