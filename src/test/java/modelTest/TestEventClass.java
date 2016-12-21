@@ -24,7 +24,7 @@ public class TestEventClass {
 	
 	//clean the array List before Tests
 	@Before
-	public void cleanEventList(){
+	public void clearEventList(){
 		Event.clearAllEvents();
 	}
 

@@ -62,8 +62,12 @@ public class Customer {
 		return true;
 	}
 	
-	public ArrayList<Customer> getCustomers(){
-		return Customer.customers;
+	public static ArrayList<Customer> getCustomers(){
+		return customers;
+	}
+	
+	public static void clearAllCustomers(){
+		customers.clear();
 	}
 	
 }

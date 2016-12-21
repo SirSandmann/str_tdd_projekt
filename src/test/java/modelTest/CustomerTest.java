@@ -3,6 +3,7 @@ package modelTest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import custom_exceptions.CustomerSameNameException;
@@ -10,6 +11,11 @@ import model.Customer;
 
 
 public class CustomerTest {
+	//clean the array List before Tests
+	@Before
+	public void cleanCustomerList(){
+		Customer.clearAllCustomers();
+	}
 
 	@Test
 	public void testGetterAndSetter_Name() throws NoSuchMethodException, CustomerSameNameException {
