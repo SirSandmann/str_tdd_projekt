@@ -2,7 +2,6 @@ package model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import custom_exceptions.EventSameDateAndTitleException;
@@ -98,10 +97,10 @@ public class Event {
 		return isTitleAndDateUnique(this.getTitle(), d);
 	}
 	
-	public boolean isTitleAndDateUnique(String title, LocalDate date){
+	private boolean isTitleAndDateUnique(String title, LocalDate date){
 		for(Event e : getEvents()) {
 			if(e.getTitle() != null && e.getDateAndTime() != null){
-	            if( e.getTitle().equals(title) && e.getDateAndTime().equals(date)) {
+	            if( e.getTitle().equals(title) && e.getDateAndTime().equals(date) && e != this) {
 	                return false;
 	            }
 			}
@@ -109,7 +108,7 @@ public class Event {
 		return true;
 	}
 	
-	public static List<Event> getEvents() {
+	public static ArrayList<Event> getEvents() {
 		return events;
 	}
 	

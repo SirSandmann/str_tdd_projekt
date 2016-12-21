@@ -70,7 +70,7 @@ public class Reservation {
 	//method for checking if the identifier is unique
 	private boolean isIdentificatorUnique(String s){
 		for(Reservation r : getReservations()) {
-            if( r.getIdentificator().equals(s) ) {
+            if( r.getIdentificator().equals(s) && r != this) {
                 return false;
             }
         }

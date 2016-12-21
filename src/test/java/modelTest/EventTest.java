@@ -15,7 +15,7 @@ import custom_exceptions.EventSameDateAndTitleException;
 import custom_exceptions.NotUniqueIdentifierException;
 import model.Event;
 
-public class TestEventClass {
+public class EventTest {
 	//fault tolerance for double values
 	private final double DELTA = 1e-5;
 	Event event = null;
@@ -66,7 +66,7 @@ public class TestEventClass {
 	@Test
 	public void testGetterAndSetter_DateAndTime() throws NoSuchMethodException, EventSameDateAndTitleException, NotUniqueIdentifierException {
 		//set to yesterday, otherwise no change
-		final LocalDate dateAndTime = LocalDate.now().minus(Period.ofDays(1));
+		final LocalDate dateAndTime = LocalDate.now();
 
 		// assert method getIdentifikator exists and set value
 		assertTrue(event.getClass().getMethod("getDateAndTime") != null);
