@@ -5,17 +5,17 @@ import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
 
-import javax.naming.NamingException;
-import javax.naming.directory.AttributeInUseException;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
 
+import custom_exceptions.EventSameDateAndTitleException;
+import custom_exceptions.NotUniqueIdentifierException;
 import model.Event;
 
 public class TestEventClass {
+	//fault tolerance for double values
 	private final double DELTA = 1e-5;
 
 	// name accessable in all test methods with the name
@@ -36,7 +36,7 @@ public class TestEventClass {
 	 */
 
 	@Test
-	public void testGetterAndSetter_Identificator() throws NoSuchMethodException, SecurityException, NamingException {
+	public void testGetterAndSetter_Identificator() throws NoSuchMethodException, EventSameDateAndTitleException, NotUniqueIdentifierException {
 		// create event use methodname as identificator
 		final Event event = new Event();
 
@@ -51,7 +51,7 @@ public class TestEventClass {
 	}
 
 	@Test
-	public void testGetterAndSetter_Titel() throws NoSuchMethodException, SecurityException, AttributeInUseException {
+	public void testGetterAndSetter_Titel() throws NoSuchMethodException, EventSameDateAndTitleException, NotUniqueIdentifierException {
 		// create event use methodname as title
 		final Event event = new Event();
 
@@ -65,7 +65,7 @@ public class TestEventClass {
 	}
 
 	@Test
-	public void testGetterAndSetter_DateAndTime() throws NoSuchMethodException, SecurityException, AttributeInUseException {
+	public void testGetterAndSetter_DateAndTime() throws NoSuchMethodException, EventSameDateAndTitleException, NotUniqueIdentifierException {
 		// create event and LocalDate to compare with
 		final Event event = new Event();
 		final LocalDate dateAndTime = LocalDate.now();
@@ -81,7 +81,7 @@ public class TestEventClass {
 
 	@Test
 	public void testGetterAndSetter_Ticketprice()
-			throws NoSuchMethodException, SecurityException, AttributeInUseException {
+			throws NoSuchMethodException, EventSameDateAndTitleException, NotUniqueIdentifierException {
 		// create event and ticketprice
 		final Event event = new Event();
 		final double ticketprice = 59.99;
@@ -97,7 +97,7 @@ public class TestEventClass {
 
 	@Test
 	public void testGetterAndSetter_AvailableSeatsOverall()
-			throws NoSuchMethodException, SecurityException, AttributeInUseException {
+			throws NoSuchMethodException, EventSameDateAndTitleException, NotUniqueIdentifierException {
 		// create event and ticketprice
 		final Event event = new Event();
 		final int availableSeatsOverall = 5999;
@@ -114,8 +114,8 @@ public class TestEventClass {
 	/*
 	 * Identifier must be unique
 	 */
-	@Test(expected = AttributeInUseException.class)
-	public void testUnique_Identifier() throws AttributeInUseException {
+	@Test(expected = NotUniqueIdentifierException.class)
+	public void testUnique_Identifier() throws EventSameDateAndTitleException, NotUniqueIdentifierException {
 		final Event event1 = new Event();
 		event1.setIdentificator(testName.toString());
 		final Event event2 = new Event();
@@ -126,8 +126,8 @@ public class TestEventClass {
 	 * There cannot be the same event on the same date
 	 * null values either for Title or for the date will be ignored in this case
 	 */
-	@Test(expected = AttributeInUseException.class)
-	public void testUnique_NameAndDateEvent() throws AttributeInUseException{
+	@Test(expected = EventSameDateAndTitleException.class)
+	public void testUnique_NameAndDateEvent() throws EventSameDateAndTitleException, NotUniqueIdentifierException{
 		LocalDate dateAndTime = LocalDate.now();
 		@SuppressWarnings("unused")
 		final Event event1 = new Event("Konzert_Udo", dateAndTime);

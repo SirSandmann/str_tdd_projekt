@@ -4,13 +4,15 @@ import model.Reservation;
 import model.Customer;
 import model.Event;
 
-import javax.naming.directory.AttributeInUseException;
-
 import static org.junit.Assert.*;
 import org.junit.Test;
 
+import custom_exceptions.CustomerSameNameException;
+import custom_exceptions.EventSameDateAndTitleException;
+import custom_exceptions.NotUniqueIdentifierException;
+
 public class ReservationTest {
-	
+	/* TODO: Test for Uniqueness */
 	@Test
 	public void testGetterAndSetter_Identificator() throws NoSuchMethodException {
 		
@@ -22,12 +24,12 @@ public class ReservationTest {
 		reservation.setIdentificator(identificator);
 
 		String result = reservation.getIdentificator();
-		assertEquals("Retrieved wrong value", "Reservierung 1", result);
+		assertEquals("Retrieved wrong value", identificator, result);
 	
 	}
 	
 	@Test
-	public void testGetterAndSetter_Customer() throws NoSuchMethodException {
+	public void testGetterAndSetter_Customer() throws NoSuchMethodException, CustomerSameNameException {
 		
 		final Reservation reservation = new Reservation();
 		final Customer customer = new Customer();
@@ -41,7 +43,8 @@ public class ReservationTest {
 
 	}
 	
-	public void testGetterAndSetter_Event() throws NoSuchMethodException, AttributeInUseException {
+	@Test
+	public void testGetterAndSetter_Event() throws NoSuchMethodException, NotUniqueIdentifierException, EventSameDateAndTitleException {
 		
 		final Reservation reservation = new Reservation();
 		final Event event = new Event();
@@ -66,7 +69,7 @@ public class ReservationTest {
 		reservation.setAmountOfReservatedSeats(amountOfReservatedSeats);
 
 		int result = reservation.getAmountOfReservatedSeats();
-		assertEquals("Retrieved wrong value", 5, result);
+		assertEquals("Retrieved wrong value", amountOfReservatedSeats, result);
 
 	}
 	

@@ -6,7 +6,7 @@ public class Reservation {
 	public Customer customer;
 	public Event event;
 	private int amountOfReservatedSeats;
-	
+	/* TODO: COnstructors , needs to have a reference to customer and event*/
 	public String getIdentificator() {
 		
 		return identificator;

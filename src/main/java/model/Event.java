@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import javax.naming.directory.AttributeInUseException;
+import custom_exceptions.EventSameDateAndTitleException;
+import custom_exceptions.NotUniqueIdentifierException;
 
 public class Event {
 	//Added for verifying that Events have a unique Identifier 
@@ -17,23 +18,23 @@ public class Event {
 	private double ticketprice;
 	private int availableSeatsOverall; 
 	
-	public Event() throws AttributeInUseException {
+	public Event() throws NotUniqueIdentifierException, EventSameDateAndTitleException{
 		this("");
 	}
 	
-	public Event(String title) throws AttributeInUseException{
+	public Event(String title) throws NotUniqueIdentifierException, EventSameDateAndTitleException{
 		this(title, null);
 	}
 	
-	public Event(String title, LocalDate dateAndTime) throws AttributeInUseException{
+	public Event(String title, LocalDate dateAndTime) throws EventSameDateAndTitleException, NotUniqueIdentifierException{
 		this(title, dateAndTime, 0.0);
 	}
 	
-	public Event(String title, LocalDate dateAndTime, double ticketprice) throws AttributeInUseException{
+	public Event(String title, LocalDate dateAndTime, double ticketprice) throws NotUniqueIdentifierException, EventSameDateAndTitleException{
 		this(title, dateAndTime, ticketprice, 0);
 	}
 	
-	public Event(String title, LocalDate dateAndTime, double ticketprice, int availableSeatsOverall) throws AttributeInUseException{
+	public Event(String title, LocalDate dateAndTime, double ticketprice, int availableSeatsOverall) throws EventSameDateAndTitleException, NotUniqueIdentifierException{
 		this.setTitle(title);
 		this.setDateAndTime(dateAndTime);
 		this.setTicketprice(ticketprice);
@@ -42,7 +43,7 @@ public class Event {
 		events.add(this);
 	}
 	
-	public void setDefaultIdenticator() throws AttributeInUseException{
+	public void setDefaultIdenticator() throws NotUniqueIdentifierException{
 		this.setIdentificator(UUID.randomUUID().toString());
 	}
 
@@ -50,11 +51,11 @@ public class Event {
 		return identificator;
 	}
 
-	public void setIdentificator(String identificator) throws AttributeInUseException {
+	public void setIdentificator(String identificator) throws NotUniqueIdentifierException {
 		if(isIdentificatorUnique(identificator)){
 			this.identificator = identificator;
 		}else{
-			throw new AttributeInUseException();
+			throw new NotUniqueIdentifierException();
 		}
 	}
 
@@ -62,11 +63,11 @@ public class Event {
 		return title;
 	}
 
-	public void setTitle(String title) throws AttributeInUseException {
+	public void setTitle(String title) throws EventSameDateAndTitleException {
 		if(isTitleAndDateUnique(title)){
 			this.title = title;
 		}else{
-			throw new AttributeInUseException();
+			throw new EventSameDateAndTitleException();
 		}
 	}
 
@@ -74,11 +75,11 @@ public class Event {
 		return dateAndTime;
 	}
 
-	public void setDateAndTime(LocalDate dateAndTime) throws AttributeInUseException {
+	public void setDateAndTime(LocalDate dateAndTime) throws EventSameDateAndTitleException {
 		if(isTitleAndDateUnique(dateAndTime)){
 			this.dateAndTime = dateAndTime;
 		}else{
-			throw new AttributeInUseException();
+			throw new EventSameDateAndTitleException();
 		}
 		
 	}
