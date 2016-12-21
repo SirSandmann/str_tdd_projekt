@@ -11,16 +11,17 @@ import model.Customer;
 
 
 public class CustomerTest {
+	Customer customer = null;
 	//clean the array List before Tests
 	@Before
-	public void cleanCustomerList(){
+	public void cleanCustomerList() throws CustomerSameNameException{
 		Customer.clearAllCustomers();
+		customer = new Customer();
 	}
 
 	@Test
 	public void testGetterAndSetter_Name() throws NoSuchMethodException, CustomerSameNameException {
 			
-		final Customer customer = new Customer();
 		final String name = "Klaus";
 	
 		assertTrue(customer.getClass().getMethod("getName") != null);
@@ -35,7 +36,6 @@ public class CustomerTest {
 	@Test
 	public void testGetterAndSetter_Address() throws NoSuchMethodException, CustomerSameNameException {
 		
-		final Customer customer = new Customer();
 		final String address = "Ricklinger Stadtweg";
 		
 		assertTrue(customer.getClass().getMethod("getAddress") != null);

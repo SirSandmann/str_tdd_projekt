@@ -14,18 +14,23 @@ import custom_exceptions.EventSameDateAndTitleException;
 import custom_exceptions.NotUniqueIdentifierException;
 
 public class ReservationTest {
+	Event event = null;
+	Customer customer = null;
 
 	@Before
-	public void clearAllLists(){
+	public void clearAllLists() throws CustomerSameNameException, NotUniqueIdentifierException, EventSameDateAndTitleException{
 		Reservation.clearReservations();
 		Customer.clearAllCustomers();
 		Event.clearAllEvents();
+		
+		event = new Event();
+		customer = new Customer();
 	}
 	
 	@Test
 	public void testGetterAndSetter_Identificator() throws NoSuchMethodException, CustomerSameNameException, NotUniqueIdentifierException, EventSameDateAndTitleException {
 		
-		final Reservation reservation = new Reservation(new Customer(), new Event());
+		final Reservation reservation = new Reservation(customer, event);
 		final String identificator = "Reservierung 1";
 
 		assertTrue(reservation.getClass().getMethod("getIdentificator") != null);
@@ -39,8 +44,7 @@ public class ReservationTest {
 	
 	@Test
 	public void testGetterAndSetter_Customer() throws NoSuchMethodException, CustomerSameNameException, NotUniqueIdentifierException, EventSameDateAndTitleException {
-		
-		final Customer customer = new Customer();
+
 		final Reservation reservation = new Reservation(customer);
 		
 		assertTrue(reservation.getClass().getMethod("getCustomer") != null);
@@ -55,8 +59,6 @@ public class ReservationTest {
 	@Test
 	public void testGetterAndSetter_Event() throws NoSuchMethodException, NotUniqueIdentifierException, EventSameDateAndTitleException, CustomerSameNameException {
 		
-		final Event event = new Event();
-		final Customer customer = new Customer();
 		final Reservation reservation = new Reservation(customer, event);
 		
 		assertTrue(reservation.getClass().getMethod("getEvent") != null);
@@ -70,9 +72,6 @@ public class ReservationTest {
 	
 	@Test
 	public void testGetterAndSetter_AmountOfReservatedSeats() throws NoSuchMethodException, CustomerSameNameException, NotUniqueIdentifierException, EventSameDateAndTitleException {
-		
-		final Event event = new Event();
-		final Customer customer = new Customer();
 		
 		final Reservation reservation = new Reservation(customer, event);
 		final int amountOfReservatedSeats = 5;
@@ -91,8 +90,7 @@ public class ReservationTest {
 	 */
 	@Test(expected = NotUniqueIdentifierException.class)
 	public void testUnique_Identifier() throws CustomerSameNameException, NotUniqueIdentifierException, EventSameDateAndTitleException{
-		final Event event = new Event();
-		final Customer customer = new Customer();
+
 		String identificator = "ReservationID";
 		
 		final Reservation reservation1 = new Reservation(customer, event);

@@ -17,6 +17,7 @@ import model.Event;
 public class TestEventClass {
 	//fault tolerance for double values
 	private final double DELTA = 1e-5;
+	Event event = null;
 
 	// name accessable in all test methods with the name
 	@Rule
@@ -24,8 +25,9 @@ public class TestEventClass {
 	
 	//clean the array List before Tests
 	@Before
-	public void clearEventList(){
+	public void clearEventList() throws NotUniqueIdentifierException, EventSameDateAndTitleException{
 		Event.clearAllEvents();
+		event = new Event();
 	}
 
 	/*
@@ -37,8 +39,6 @@ public class TestEventClass {
 
 	@Test
 	public void testGetterAndSetter_Identificator() throws NoSuchMethodException, EventSameDateAndTitleException, NotUniqueIdentifierException {
-		// create event use methodname as identificator
-		final Event event = new Event();
 
 		// assert method getIdentifikator exists and set value
 		assertTrue(event.getClass().getMethod("getIdentificator") != null);
@@ -52,8 +52,6 @@ public class TestEventClass {
 
 	@Test
 	public void testGetterAndSetter_Titel() throws NoSuchMethodException, EventSameDateAndTitleException, NotUniqueIdentifierException {
-		// create event use methodname as title
-		final Event event = new Event();
 
 		// assert method getIdentifikator exists and set value
 		assertTrue(event.getClass().getMethod("getTitle") != null);
@@ -66,8 +64,7 @@ public class TestEventClass {
 
 	@Test
 	public void testGetterAndSetter_DateAndTime() throws NoSuchMethodException, EventSameDateAndTitleException, NotUniqueIdentifierException {
-		// create event and LocalDate to compare with
-		final Event event = new Event();
+
 		final LocalDate dateAndTime = LocalDate.now();
 
 		// assert method getIdentifikator exists and set value
@@ -82,8 +79,7 @@ public class TestEventClass {
 	@Test
 	public void testGetterAndSetter_Ticketprice()
 			throws NoSuchMethodException, EventSameDateAndTitleException, NotUniqueIdentifierException {
-		// create event and ticketprice
-		final Event event = new Event();
+
 		final double ticketprice = 59.99;
 
 		// assert method getIdentifikator exists and set value
@@ -98,8 +94,7 @@ public class TestEventClass {
 	@Test
 	public void testGetterAndSetter_AvailableSeatsOverall()
 			throws NoSuchMethodException, EventSameDateAndTitleException, NotUniqueIdentifierException {
-		// create event and ticketprice
-		final Event event = new Event();
+		
 		final int availableSeatsOverall = 5999;
 
 		// assert method getIdentifikator exists and set value
