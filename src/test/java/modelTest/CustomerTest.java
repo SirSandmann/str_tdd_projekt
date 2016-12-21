@@ -1,15 +1,18 @@
 package modelTest;
 
-import model.Customer;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-import static org.junit.Assert.*;
 import org.junit.Test;
+
+import custom_exceptions.CustomerSameNameException;
+import model.Customer;
 
 
 public class CustomerTest {
-	
+
 	@Test
-	public void testGetterAndSetter_Name() throws NoSuchMethodException {
+	public void testGetterAndSetter_Name() throws NoSuchMethodException, CustomerSameNameException {
 			
 		final Customer customer = new Customer();
 		final String name = "Klaus";
@@ -19,12 +22,12 @@ public class CustomerTest {
 		customer.setName(name);
 
 		String result = customer.getName();
-		assertEquals("Retrieved wrong value", "Klaus", result);
+		assertEquals("Retrieved wrong value", name, result);
 
 	}
 
 	@Test
-	public void testGetterAndSetter_Address() throws NoSuchMethodException {
+	public void testGetterAndSetter_Address() throws NoSuchMethodException, CustomerSameNameException {
 		
 		final Customer customer = new Customer();
 		final String address = "Ricklinger Stadtweg";
@@ -34,6 +37,18 @@ public class CustomerTest {
 		customer.setAddress(address);
 
 		String result = customer.getAddress();
-		assertEquals("Retrieved wrong value", "Ricklinger Stadtweg", result);
+		assertEquals("Retrieved wrong value", address, result);
+	}
+	
+	/*
+	 * There cannot be the same customer with the same name
+	 */
+	@Test(expected = CustomerSameNameException.class)
+	public void testUnique_Name() throws CustomerSameNameException{
+		final String name = "Hans Peter";
+		@SuppressWarnings("unused")
+		final Customer customer1 = new Customer(name);
+		@SuppressWarnings("unused")
+		final Customer customer2 = new Customer(name);
 	}
 }
