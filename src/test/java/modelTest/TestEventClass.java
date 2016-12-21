@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
+import java.time.Period;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -27,7 +28,7 @@ public class TestEventClass {
 	@Before
 	public void clearEventList() throws NotUniqueIdentifierException, EventSameDateAndTitleException{
 		Event.clearAllEvents();
-		event = new Event();
+		event = new Event("Event Title", LocalDate.now(), 79.99, 250000);
 	}
 
 	/*
@@ -64,8 +65,8 @@ public class TestEventClass {
 
 	@Test
 	public void testGetterAndSetter_DateAndTime() throws NoSuchMethodException, EventSameDateAndTitleException, NotUniqueIdentifierException {
-
-		final LocalDate dateAndTime = LocalDate.now();
+		//set to yesterday, otherwise no change
+		final LocalDate dateAndTime = LocalDate.now().minus(Period.ofDays(1));
 
 		// assert method getIdentifikator exists and set value
 		assertTrue(event.getClass().getMethod("getDateAndTime") != null);
@@ -111,10 +112,10 @@ public class TestEventClass {
 	 */
 	@Test(expected = NotUniqueIdentifierException.class)
 	public void testUnique_Identifier() throws EventSameDateAndTitleException, NotUniqueIdentifierException {
-		final Event event1 = new Event();
-		event1.setIdentificator(testName.toString());
-		final Event event2 = new Event();
-		event2.setIdentificator(testName.toString());
+		event.setIdentificator(testName.toString());
+		//Importtant not same date and Titel! Therefor date set to yesterday
+		final Event eventDouble = new Event(event.getTitle(),LocalDate.now().minus(Period.ofDays(1)), event.getTicketprice(), event.getAvailableSeatsOverall());
+		eventDouble.setIdentificator(testName.toString());
 	}
 	
 	/*
@@ -123,11 +124,8 @@ public class TestEventClass {
 	 */
 	@Test(expected = EventSameDateAndTitleException.class)
 	public void testUnique_NameAndDateEvent() throws EventSameDateAndTitleException, NotUniqueIdentifierException{
-		LocalDate dateAndTime = LocalDate.now();
 		@SuppressWarnings("unused")
-		final Event event1 = new Event("Konzert_Udo", dateAndTime);
-		@SuppressWarnings("unused")
-		final Event event2 = new Event("Konzert_Udo", dateAndTime);
+		final Event event1 = new Event(event.getTitle(), event.getDateAndTime(), event.getTicketprice(), event.getAvailableSeatsOverall());
 	}
 
 }

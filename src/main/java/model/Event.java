@@ -18,22 +18,6 @@ public class Event {
 	private double ticketprice;
 	private int availableSeatsOverall; 
 	
-	public Event() throws NotUniqueIdentifierException, EventSameDateAndTitleException{
-		this("");
-	}
-	
-	public Event(String title) throws NotUniqueIdentifierException, EventSameDateAndTitleException{
-		this(title, null);
-	}
-	
-	public Event(String title, LocalDate dateAndTime) throws EventSameDateAndTitleException, NotUniqueIdentifierException{
-		this(title, dateAndTime, 0.0);
-	}
-	
-	public Event(String title, LocalDate dateAndTime, double ticketprice) throws NotUniqueIdentifierException, EventSameDateAndTitleException{
-		this(title, dateAndTime, ticketprice, 0);
-	}
-	
 	public Event(String title, LocalDate dateAndTime, double ticketprice, int availableSeatsOverall) throws EventSameDateAndTitleException, NotUniqueIdentifierException{
 		this.setTitle(title);
 		this.setDateAndTime(dateAndTime);
