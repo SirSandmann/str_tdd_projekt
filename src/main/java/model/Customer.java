@@ -13,7 +13,7 @@ public class Customer {
 	
 	public Customer(String name, String address) throws CustomerSameNameException{
 		this.setName(name);
-		this.setName(address);
+		this.setAddress(address);
 		customers.add(this);
 	}
 	

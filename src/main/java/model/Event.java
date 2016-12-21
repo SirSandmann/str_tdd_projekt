@@ -2,7 +2,6 @@ package model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import custom_exceptions.EventSameDateAndTitleException;
@@ -109,7 +108,7 @@ public class Event {
 		return true;
 	}
 	
-	public static List<Event> getEvents() {
+	public static ArrayList<Event> getEvents() {
 		return events;
 	}
 	
