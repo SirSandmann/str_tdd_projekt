@@ -39,12 +39,8 @@ public class Event {
 		this.setDateAndTime(dateAndTime);
 		this.setTicketprice(ticketprice);
 		this.setAvailableSeatsOverall(availableSeatsOverall);
-		setDefaultIdenticator();
-		events.add(this);
-	}
-	
-	public void setDefaultIdenticator() throws NotUniqueIdentifierException{
 		this.setIdentificator(UUID.randomUUID().toString());
+		events.add(this);
 	}
 
 	public String getIdentificator() {
