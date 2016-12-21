@@ -43,7 +43,7 @@ public class Customer {
 	//method for checking if the identifier is unique
 	private boolean isNameUnique(String s){
 		for(Customer c : getCustomers()) {
-            if( c.getName().equals(s) ) {
+            if( c.getName().equals(s) && c != this) {
                 return false;
             }
         }

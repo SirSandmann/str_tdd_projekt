@@ -66,7 +66,7 @@ public class TestEventClass {
 	@Test
 	public void testGetterAndSetter_DateAndTime() throws NoSuchMethodException, EventSameDateAndTitleException, NotUniqueIdentifierException {
 		//set to yesterday, otherwise no change
-		final LocalDate dateAndTime = LocalDate.now().minus(Period.ofDays(1));
+		final LocalDate dateAndTime = LocalDate.now();
 
 		// assert method getIdentifikator exists and set value
 		assertTrue(event.getClass().getMethod("getDateAndTime") != null);
