@@ -6,6 +6,8 @@ import model.Event;
 
 import static org.junit.Assert.*;
 
+import java.time.LocalDate;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,6 +18,7 @@ import custom_exceptions.NotUniqueIdentifierException;
 public class ReservationTest {
 	Event event = null;
 	Customer customer = null;
+	Reservation reservation = null;
 
 	@Before
 	public void clearAllLists() throws CustomerSameNameException, NotUniqueIdentifierException, EventSameDateAndTitleException{
@@ -23,14 +26,14 @@ public class ReservationTest {
 		Customer.clearAllCustomers();
 		Event.clearAllEvents();
 		
-		event = new Event();
-		customer = new Customer();
+		event = new Event("EventTitle",LocalDate.now(),59.99, 10000);
+		customer = new Customer("Peter CustName", "Ricklinger Stadtweg 120");
+		reservation = new Reservation(customer, event, 5000);
 	}
 	
 	@Test
 	public void testGetterAndSetter_Identificator() throws NoSuchMethodException, CustomerSameNameException, NotUniqueIdentifierException, EventSameDateAndTitleException {
 		
-		final Reservation reservation = new Reservation(customer, event);
 		final String identificator = "Reservierung 1";
 
 		assertTrue(reservation.getClass().getMethod("getIdentificator") != null);
@@ -44,8 +47,6 @@ public class ReservationTest {
 	
 	@Test
 	public void testGetterAndSetter_Customer() throws NoSuchMethodException, CustomerSameNameException, NotUniqueIdentifierException, EventSameDateAndTitleException {
-
-		final Reservation reservation = new Reservation(customer);
 		
 		assertTrue(reservation.getClass().getMethod("getCustomer") != null);
 		assertTrue(reservation.getClass().getMethod("setCustomer", Customer.class) != null);
@@ -59,8 +60,6 @@ public class ReservationTest {
 	@Test
 	public void testGetterAndSetter_Event() throws NoSuchMethodException, NotUniqueIdentifierException, EventSameDateAndTitleException, CustomerSameNameException {
 		
-		final Reservation reservation = new Reservation(customer, event);
-		
 		assertTrue(reservation.getClass().getMethod("getEvent") != null);
 		assertTrue(reservation.getClass().getMethod("setEvent", Event.class) != null);
 		reservation.setEvent(event);
@@ -73,7 +72,6 @@ public class ReservationTest {
 	@Test
 	public void testGetterAndSetter_AmountOfReservatedSeats() throws NoSuchMethodException, CustomerSameNameException, NotUniqueIdentifierException, EventSameDateAndTitleException {
 		
-		final Reservation reservation = new Reservation(customer, event);
 		final int amountOfReservatedSeats = 5;
 		
 		assertTrue(reservation.getClass().getMethod("getAmountOfReservatedSeats") != null);
@@ -93,10 +91,10 @@ public class ReservationTest {
 
 		String identificator = "ReservationID";
 		
-		final Reservation reservation1 = new Reservation(customer, event);
-		reservation1.setIdentificator(identificator);
-		final Reservation reservation2 = new Reservation(customer, event);
-		reservation2.setIdentificator(identificator);
+		reservation.setIdentificator(identificator);
+		final Reservation reservationDouble = new Reservation(reservation.getCustomer(), reservation.getEvent(), reservation.getAmountOfReservatedSeats());
+		reservationDouble.setIdentificator(identificator);
+
 	}
 	
 }

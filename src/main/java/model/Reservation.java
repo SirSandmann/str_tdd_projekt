@@ -3,8 +3,6 @@ package model;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import custom_exceptions.CustomerSameNameException;
-import custom_exceptions.EventSameDateAndTitleException;
 import custom_exceptions.NotUniqueIdentifierException;
 
 public class Reservation { 
@@ -13,22 +11,9 @@ public class Reservation {
 	private static ArrayList<Reservation> reservations = new ArrayList<Reservation>();
 	
 	private String identificator;
-	public Customer customer;
-	public Event event;
+	private Customer customer;
+	private Event event;
 	private int amountOfReservatedSeats;
-	/* TODO: COnstructors , needs to have a reference to customer and event*/
-	
-	public Reservation() throws CustomerSameNameException, NotUniqueIdentifierException, EventSameDateAndTitleException{
-		this(new Customer());
-	}
-	
-	public Reservation(Customer c) throws NotUniqueIdentifierException, EventSameDateAndTitleException{
-		this(c, new Event());
-	}
-	
-	public Reservation(Customer c, Event e) throws NotUniqueIdentifierException{
-		this(c, e, 0);
-	}
 	
 	public Reservation(Customer c, Event e, int amountOfReservatedSeats) throws NotUniqueIdentifierException{
 		this.setCustomer(c);

@@ -8,20 +8,8 @@ public class Customer {
 	//Added for verifying that Events have a unique Identifier 
 	private static ArrayList<Customer> customers = new ArrayList<Customer>();
 
-	public String name;
-	public String address;
-
-	/* TODO: Make name Unique, add Constrcutors
-	 * Identifikator muss unique sein 
-	 */
-	
-	public Customer() throws CustomerSameNameException{
-		this("");
-	}
-	
-	public Customer(String name) throws CustomerSameNameException{
-		this(name, "");
-	}
+	private String name;
+	private String address;
 	
 	public Customer(String name, String address) throws CustomerSameNameException{
 		this.setName(name);

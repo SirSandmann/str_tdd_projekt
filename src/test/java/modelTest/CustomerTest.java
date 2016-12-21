@@ -16,7 +16,7 @@ public class CustomerTest {
 	@Before
 	public void cleanCustomerList() throws CustomerSameNameException{
 		Customer.clearAllCustomers();
-		customer = new Customer();
+		customer = new Customer("Customer Name", "Ricklinger Stadtweg 120");
 	}
 
 	@Test
@@ -51,10 +51,7 @@ public class CustomerTest {
 	 */
 	@Test(expected = CustomerSameNameException.class)
 	public void testUnique_Name() throws CustomerSameNameException{
-		final String name = "Hans Peter";
 		@SuppressWarnings("unused")
-		final Customer customer1 = new Customer(name);
-		@SuppressWarnings("unused")
-		final Customer customer2 = new Customer(name);
+		final Customer customerDouble = new Customer(customer.getName(), customer.getAddress());
 	}
 }
