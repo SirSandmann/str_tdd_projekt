@@ -2,6 +2,7 @@ package testsuite;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
+import serviceTest.AddInstancesTest;
 import serviceTest.ListInstancesTest;
 
 
@@ -9,7 +10,8 @@ import serviceTest.ListInstancesTest;
 
 @Suite.SuiteClasses({
 
-	ListInstancesTest.class
+	ListInstancesTest.class,
+	AddInstancesTest.class
    
 })
 
