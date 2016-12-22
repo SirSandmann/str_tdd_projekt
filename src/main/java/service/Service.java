@@ -14,4 +14,8 @@ public class Service {
 	public ArrayList<Customer> getCustomers(){
 		return Customer.getCustomers();
 	}
+	
+	public void addCustomer(String name, String address){
+		
+	}
 }
