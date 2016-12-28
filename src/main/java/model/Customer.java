@@ -1,61 +1,32 @@
 package model;
 
-import java.util.ArrayList;
-
-import custom_exceptions.CustomerSameNameException;
-
 public class Customer {
-	//Added for verifying that Events have a unique Identifier 
-	private static ArrayList<Customer> customers = new ArrayList<Customer>();
 
-	private String name;
-	private String address;
-	
-	public Customer(String name, String address) throws CustomerSameNameException{
-		this.setName(name);
-		this.setAddress(address);
-		customers.add(this);
-	}
-	
-	public String getName() {
-		
-		return name;
-	}
-	
-	public void setName(String name) throws CustomerSameNameException {
-		if(isNameUnique(name)){
-			this.name = name;
-		}else{
-			throw new CustomerSameNameException();
-		}
-	}
-	
-	public String getAddress() {
-		
-		return address;
-	}
-	
-	public void setAddress(String address) {
-		
-		this.address = address;
-	}
-	
-	//method for checking if the identifier is unique
-	private boolean isNameUnique(String s){
-		for(Customer c : getCustomers()) {
-            if( c.getName().equals(s) && c != this) {
-                return false;
-            }
-        }
-		return true;
-	}
-	
-	public static ArrayList<Customer> getCustomers(){
-		return customers;
-	}
-	
-	public static void clearAllCustomers(){
-		customers.clear();
-	}
-	
+    private String name;
+    private String address;
+
+    public Customer(String name, String address) {
+        this.setName(name);
+        this.setAddress(address);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    private void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    private void setAddress(String address) {
+        this.address = address;
+    }
+
+    public boolean equals (Customer c){
+        return (c.getName().equals(this.name) && c.getAddress().equals(this.address));
+    }
 }

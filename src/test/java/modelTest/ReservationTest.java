@@ -23,7 +23,7 @@ public class ReservationTest {
 	@Before
 	public void clearAllLists() throws CustomerSameNameException, NotUniqueIdentifierException, EventSameDateAndTitleException{
 		Reservation.clearReservations();
-		Customer.clearAllCustomers();
+		//Customer.clearAllCustomers();
 		Event.clearAllEvents();
 		
 		event = new Event("EventTitle",LocalDate.now(),59.99, 10000);
