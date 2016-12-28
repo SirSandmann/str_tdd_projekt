@@ -145,4 +145,19 @@ public class ReservationServiceTest {
 
         assertEquals("Free seats are not correct calculated", shouldFreeSeats, freeSeats);
     }
+
+    @Test(expected = NotUniqueIdentifierException.class)
+    public void addDuplicateReservation() throws NotUniqueIdentifierException, CustomerSameNameException, NotEnoughFreeSeatsException {
+        Event e = new Event("König der Löwen", new Date(), 129.99, 2000);
+        EventService.addEvent(e);
+        Event eGet = EventService.getEvents().get(e.getUuid());
+
+        Customer c = new Customer("Klaus", "Musterstraße 1a");
+        CustomerService.addCustomer(c);
+        Customer cGet = CustomerService.getCustomers().get(c.getName());
+
+        Reservation r = new Reservation(cGet.getName(), eGet.getUuid(), 3);
+        ReservationService.addReservation(r);
+        ReservationService.addReservation(r);
+    }
 }
