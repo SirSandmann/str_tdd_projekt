@@ -11,9 +11,9 @@ public class Service {
     private static HashMap<String, Customer> customers = new HashMap<String, Customer>();
     private static ArrayList<Event> events = new ArrayList<Event>();
 
-    public static void addCustomer(String name, String address) throws CustomerSameNameException {
-        if (!customers.containsKey(name)) {
-            customers.put(name, new Customer(name, address));
+    public static void addCustomer(Customer c) throws CustomerSameNameException {
+        if (!customers.containsKey(c.getName())) {
+            customers.put(c.getName(), c);
         } else {
             throw new CustomerSameNameException();
         }
