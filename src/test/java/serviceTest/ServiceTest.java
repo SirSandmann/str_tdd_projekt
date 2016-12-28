@@ -58,7 +58,7 @@ public class ServiceTest {
 
     @Test
     public void addReservation() throws NotUniqueIdentifierException, CustomerSameNameException {
-        Event e = new Event("König der Löwen", new Date(),  129.99, 2000);
+        Event e = new Event("König der Löwen", new Date(), 129.99, 2000);
         Service.addEvent(e);
         assertEquals("Odd number of elements in events collection", 1, Service.getEvents().size());
         Event eGet = Service.getEvents().get(e.getUuid());
@@ -76,6 +76,25 @@ public class ServiceTest {
         Reservation rGet = Service.getReservations().get(r.getUuid());
 
         assertTrue("Added customer is not correct persisted", r.equals(rGet));
+    }
+
+    @Test
+    public void getFreeSeats() throws NotUniqueIdentifierException, CustomerSameNameException {
+        Event e = new Event("König der Löwen", new Date(), 129.99, 2000);
+        Service.addEvent(e);
+        Event eGet = Service.getEvents().get(e.getUuid());
+
+        Customer c = new Customer("Klaus", "Musterstraße 1a");
+        Service.addCustomer(c);
+        Customer cGet = Service.getCustomers().get(c.getName());
+
+        Reservation r = new Reservation(cGet.getName(), eGet.getUuid(), 3);
+        Service.addReservation(r);
+
+        Integer freeSeats = Service.getFreeSeats(e.getUuid());
+        Integer shouldFreeSeats = 1997;
+
+        assertEquals("Free seats are not correct calculated", shouldFreeSeats, freeSeats);
     }
 
     @Test(expected = CustomerSameNameException.class)

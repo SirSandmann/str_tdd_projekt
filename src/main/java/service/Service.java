@@ -1,6 +1,8 @@
 package service;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.UUID;
 
 import custom_exceptions.CustomerSameNameException;
@@ -36,6 +38,19 @@ public class Service {
         } else {
             throw new NotUniqueIdentifierException();
         }
+    }
+
+    public static Integer getFreeSeats(UUID eventUuid) {
+        Event e = events.get(eventUuid);
+        Integer freeSeats = e.getSeats();
+
+        for (Reservation r : reservations.values()) {
+            if (r.getEventUuid() == eventUuid) {
+                freeSeats -= r.getSeats();
+            }
+        }
+
+        return freeSeats;
     }
 
     public static void reset() {
