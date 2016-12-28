@@ -35,4 +35,15 @@ public class EventServiceTest {
 
         assertTrue("Added customer is not correct persisted", e.equals(eGet));
     }
+
+    @Test(expected = NotUniqueIdentifierException.class)
+    public void addDuplicateEvent() throws NotUniqueIdentifierException {
+        String name = "König der Löwen";
+        Double price = 129.99;
+        Integer freeSeats = 2000;
+
+        Event e = new Event(name, new Date(), price, freeSeats);
+        EventService.addEvent(e);
+        EventService.addEvent(e);
+    }
 }
