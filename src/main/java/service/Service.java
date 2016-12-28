@@ -8,24 +8,39 @@ import model.Customer;
 import model.Event;
 
 public class Service {
-	private static HashMap<String, Customer> customers = new HashMap<String, Customer>();
-	public ArrayList<Event> getEvents(){
-		return Event.getEvents();
-	}
+    private static HashMap<String, Customer> customers = new HashMap<String, Customer>();
+    private static ArrayList<Event> events = new ArrayList<Event>();
 
-	public static HashMap<String, Customer> getCustomers() {
-		return customers;
-	}
+    public static void addCustomer(String name, String address) throws CustomerSameNameException {
+        if (!customers.containsKey(name)) {
+            customers.put(name, new Customer(name, address));
+        } else {
+            throw new CustomerSameNameException();
+        }
+    }
 
-	public static void addCustomer(String name, String address) throws CustomerSameNameException {
-		if(!customers.containsKey(name)) {
-			customers.put(name, new Customer(name, address));
-		} else {
-			throw new CustomerSameNameException();
-		}
-	}
+    public static void addEvent(Event e){
+        events.add(e);
+    }
 
-	public static void reset(){
-		customers.clear();
-	}
+    public static void reset() {
+        resetEvents();
+        resetCustomers();
+    }
+
+    private static void resetCustomers(){
+        customers.clear();
+    }
+
+    private static void resetEvents(){
+        events.clear();
+    }
+
+    public static HashMap<String, Customer> getCustomers() {
+        return customers;
+    }
+
+    public static ArrayList<Event> getEvents() {
+        return events;
+    }
 }

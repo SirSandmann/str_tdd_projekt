@@ -2,9 +2,12 @@ package serviceTest;
 
 import custom_exceptions.CustomerSameNameException;
 import model.Customer;
+import model.Event;
 import org.junit.Before;
 import org.junit.Test;
 import service.Service;
+
+import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -29,6 +32,24 @@ public class ServiceTest {
 		Customer cGet = Service.getCustomers().get(name);
 
 		assertTrue("Added customer is not correct persisted", c.equals(cGet));
+	}
+
+	@Test
+	public void addEvent() throws CustomerSameNameException{
+		String name = "König der Löwen";
+		Double price = 129.99;
+		Integer freeSeats = 2000;
+
+		assertEquals("Collection must be empty",0, Service.getEvents().size());
+
+		Event e = new Event(name, new Date(), price, freeSeats);
+		Service.addEvent(e);
+
+		assertEquals("Odd number of elements in customers collection",1, Service.getEvents().size());
+
+		Event eGet = Service.getEvents().get(0);
+
+		assertTrue("Added customer is not correct persisted", e.equals(eGet));
 	}
 
 	@Test (expected = CustomerSameNameException.class)

@@ -1,119 +1,68 @@
 package model;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.UUID;
 
-import custom_exceptions.EventSameDateAndTitleException;
-import custom_exceptions.NotUniqueIdentifierException;
-
 public class Event {
-	//Added for verifying that Events have a unique Identifier 
-	private static ArrayList<Event> events = new ArrayList<Event>();
-	
-	private String identificator;
-	private String title;
-	private LocalDate dateAndTime;
-	private double ticketprice;
-	private int availableSeatsOverall; 
-	
-	public Event(String title, LocalDate dateAndTime, double ticketprice, int availableSeatsOverall) throws EventSameDateAndTitleException, NotUniqueIdentifierException{
-		this.setTitle(title);
-		this.setDateAndTime(dateAndTime);
-		this.setTicketprice(ticketprice);
-		this.setAvailableSeatsOverall(availableSeatsOverall);
-		this.setIdentificator(UUID.randomUUID().toString());
-		events.add(this);
-	}
+    private UUID uuid;
+    private String title;
+    private Date date;
+    private double price;
+    private int seats;
 
-	public String getIdentificator() {
-		return identificator;
-	}
+    public Event(String title, Date date, double price, int seats) {
+        this.setTitle(title);
+        this.setDate(date);
+        this.setPrice(price);
+        this.setSeats(seats);
+        this.setUuid(UUID.randomUUID());
+    }
 
-	public void setIdentificator(String identificator) throws NotUniqueIdentifierException {
-		if(isIdentificatorUnique(identificator)){
-			this.identificator = identificator;
-		}else{
-			throw new NotUniqueIdentifierException();
-		}
-	}
+    public UUID getUuid() {
+        return this.uuid;
+    }
 
-	public String getTitle() {
-		return title;
-	}
+    private void setUuid(UUID uuid) {
+        this.uuid = uuid;
+    }
 
-	public void setTitle(String title) throws EventSameDateAndTitleException {
-		if(isTitleAndDateUnique(title)){
-			this.title = title;
-		}else{
-			throw new EventSameDateAndTitleException();
-		}
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public LocalDate getDateAndTime() {
-		return dateAndTime;
-	}
+    private void setTitle(String title) {
+        this.title = title;
+    }
 
-	public void setDateAndTime(LocalDate dateAndTime) throws EventSameDateAndTitleException {
-		if(isTitleAndDateUnique(dateAndTime)){
-			this.dateAndTime = dateAndTime;
-		}else{
-			throw new EventSameDateAndTitleException();
-		}
-		
-	}
+    public Date getDate() {
+        return this.date;
+    }
 
-	public double getTicketprice() {
-		return ticketprice;
-	}
+    private void setDate(Date date) {
+        this.date = date;
+    }
 
-	public void setTicketprice(double ticketprice) {
-		this.ticketprice = ticketprice;
-	}
+    public double getPrice() {
+        return this.price;
+    }
 
-	public int getAvailableSeatsOverall() {
-		return availableSeatsOverall;
-	}
+    private void setPrice(double price) {
+        this.price = price;
+    }
 
-	public void setAvailableSeatsOverall(int availableSeatsOverall) {
-		this.availableSeatsOverall = availableSeatsOverall;
-	}
-	
-	//method for checking if the identifier is unique
-	private boolean isIdentificatorUnique(String s){
-		for(Event e : getEvents()) {
-            if( e.getIdentificator().equals(s) ) {
-                return false;
-            }
-        }
-		return true;
-	}
-	
-	public boolean isTitleAndDateUnique(String s){
-		return isTitleAndDateUnique(s, this.getDateAndTime());
-	}
-	
-	public boolean isTitleAndDateUnique(LocalDate d){
-		return isTitleAndDateUnique(this.getTitle(), d);
-	}
-	
-	private boolean isTitleAndDateUnique(String title, LocalDate date){
-		for(Event e : getEvents()) {
-			if(e.getTitle() != null && e.getDateAndTime() != null){
-	            if( e.getTitle().equals(title) && e.getDateAndTime().equals(date) && e != this) {
-	                return false;
-	            }
-			}
-        }
-		return true;
-	}
-	
-	public static ArrayList<Event> getEvents() {
-		return events;
-	}
-	
-	public static void clearAllEvents(){
-		events.clear();
-	}
-	
+    public int getSeats() {
+        return this.seats;
+    }
+
+    private void setSeats(int seats) {
+        this.seats = seats;
+    }
+
+    public boolean equals(Event e) {
+        return (e.getTitle().equals(this.title) &&
+                e.getDate() == this.date &&
+                e.getPrice() == this.price &&
+                e.getSeats() == this.seats &&
+                e.getUuid() == this.uuid);
+    }
 }

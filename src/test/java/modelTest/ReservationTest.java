@@ -7,6 +7,7 @@ import model.Event;
 import static org.junit.Assert.*;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -24,9 +25,8 @@ public class ReservationTest {
 	public void clearAllLists() throws CustomerSameNameException, NotUniqueIdentifierException, EventSameDateAndTitleException{
 		Reservation.clearReservations();
 		//Customer.clearAllCustomers();
-		Event.clearAllEvents();
 		
-		event = new Event("EventTitle",LocalDate.now(),59.99, 10000);
+		event = new Event("EventTitle", new Date(),59.99, 10000);
 		customer = new Customer("Peter CustName", "Ricklinger Stadtweg 120");
 		reservation = new Reservation(customer, event, 5000);
 	}

@@ -4,6 +4,7 @@ import static org.junit.Assert.assertArrayEquals;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,23 +21,12 @@ public class AddInstancesTest {
     @Before
     public void clearAllLists() {
         Reservation.clearReservations();
-        Event.clearAllEvents();
-
-    }
-
-    @Test
-    public void testCreateEvent() throws EventSameDateAndTitleException, NotUniqueIdentifierException {
-        ArrayList<Event> referenceList = new ArrayList<Event>();
-        Event event = new Event("EventTitle", LocalDate.now(), 59.99, 10000);
-        referenceList.add(event);
-
-        assertArrayEquals("Not complete List retrieved", referenceList.toArray(), Event.getEvents().toArray());
     }
 
     @Test
     public void testCreateReservation() throws EventSameDateAndTitleException, NotUniqueIdentifierException, CustomerSameNameException {
         ArrayList<Reservation> referenceList = new ArrayList<Reservation>();
-        Event event = new Event("EventTitle", LocalDate.now(), 59.99, 10000);
+        Event event = new Event("EventTitle", new Date(), 59.99, 10000);
         Customer customer = new Customer("Peter CustName", "Ricklinger Stadtweg 120");
         Reservation reservation = new Reservation(customer, event, 5000);
         referenceList.add(reservation);

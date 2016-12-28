@@ -1,131 +1,71 @@
 package modelTest;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.time.LocalDate;
-import java.time.Period;
+import java.util.Date;
+import java.util.UUID;
 
-import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TestName;
 
-import custom_exceptions.EventSameDateAndTitleException;
-import custom_exceptions.NotUniqueIdentifierException;
 import model.Event;
 
 public class EventTest {
-	//fault tolerance for double values
-	private final double DELTA = 1e-5;
-	Event event = null;
+    private UUID uuid = UUID.randomUUID();
+    private String title = "König der Löwen";
+    private Date date = new Date();
+    private Double price = 129.99;
+    private Integer seats = 2000;
 
-	// name accessable in all test methods with the name
-	@Rule
-	public TestName testName = new TestName();
-	
-	//clean the array List before Tests
-	@Before
-	public void clearEventList() throws NotUniqueIdentifierException, EventSameDateAndTitleException{
-		Event.clearAllEvents();
-		event = new Event("Event Title", LocalDate.now(), 79.99, 250000);
-	}
+    private double DELTA = 1e-5;
 
-	/*
-	 * Following Getter and Setter Methods the getter and setter are verified
-	 * through - verifying that a getter and setter method exists - run setter -
-	 * retrieve value from the getter and compare with the one in the setter
-	 * method
-	 */
+    @Test
+    public void getUuid() throws Exception {
+        Event e = new Event(title, date, price, seats);
 
-	@Test
-	public void testGetterAndSetter_Identificator() throws NoSuchMethodException, EventSameDateAndTitleException, NotUniqueIdentifierException {
+        assertTrue(e.getClass().getMethod("getUuid") != null);
+        assertNotEquals("UUID should be unique", uuid, e.getUuid());
+    }
 
-		// assert method getIdentifikator exists and set value
-		assertTrue(event.getClass().getMethod("getIdentificator") != null);
-		assertTrue(event.getClass().getMethod("setIdentificator", String.class) != null);
-		event.setIdentificator(testName.toString());
+    @Test
+    public void getTitle() throws Exception {
+        Event e = new Event(title, date, price, seats);
 
-		String result = event.getIdentificator();
-		assertEquals("Retrieved wrong value", testName.toString(), result);
+        assertTrue(e.getClass().getMethod("getTitle") != null);
+        assertEquals("Retrieved wrong value", title, e.getTitle());
+    }
 
-	}
+    @Test
+    public void getDate() throws Exception {
+        Event e = new Event(title, date, price, seats);
 
-	@Test
-	public void testGetterAndSetter_Titel() throws NoSuchMethodException, EventSameDateAndTitleException, NotUniqueIdentifierException {
+        assertTrue(e.getClass().getMethod("getDate") != null);
+        assertEquals("Retrieved wrong value", date, e.getDate());
+    }
 
-		// assert method getIdentifikator exists and set value
-		assertTrue(event.getClass().getMethod("getTitle") != null);
-		assertTrue(event.getClass().getMethod("setTitle", String.class) != null);
-		event.setTitle(testName.toString());
+    @Test
+    public void getPrice() throws Exception {
+        Event e = new Event(title, date, price, seats);
 
-		String result = event.getTitle();
-		assertEquals("Retrieved wrong value", testName.toString(), result);
-	}
+        assertTrue(e.getClass().getMethod("getPrice") != null);
+        assertEquals("Retrieved wrong value", price, e.getPrice(), DELTA);
+    }
 
-	@Test
-	public void testGetterAndSetter_DateAndTime() throws NoSuchMethodException, EventSameDateAndTitleException, NotUniqueIdentifierException {
-		//set to yesterday, otherwise no change
-		final LocalDate dateAndTime = LocalDate.now();
+    @Test
+    public void getSeats() throws Exception {
+        Event e = new Event(title, date, price, seats);
 
-		// assert method getIdentifikator exists and set value
-		assertTrue(event.getClass().getMethod("getDateAndTime") != null);
-		assertTrue(event.getClass().getMethod("setDateAndTime", LocalDate.class) != null);
-		event.setDateAndTime(dateAndTime);
+        assertTrue(e.getClass().getMethod("getSeats") != null);
+        assertEquals("Retrieved wrong value", seats, e.getSeats(), DELTA);
+    }
 
-		LocalDate result = event.getDateAndTime();
-		assertEquals("Retrieved wrong value", dateAndTime, result);
-	}
+    @Test
+    public void equals() throws Exception {
+        Event e1 = new Event(title, date, price, seats);
+        Event e2 = new Event(title, date, price, seats);
 
-	@Test
-	public void testGetterAndSetter_Ticketprice()
-			throws NoSuchMethodException, EventSameDateAndTitleException, NotUniqueIdentifierException {
-
-		final double ticketprice = 59.99;
-
-		// assert method getIdentifikator exists and set value
-		assertTrue(event.getClass().getMethod("getTicketprice") != null);
-		assertTrue(event.getClass().getMethod("setTicketprice", double.class) != null);
-		event.setTicketprice(ticketprice);
-
-		double result = event.getTicketprice();
-		assertEquals("Retrieved wrong value", ticketprice, result, DELTA);
-	}
-
-	@Test
-	public void testGetterAndSetter_AvailableSeatsOverall()
-			throws NoSuchMethodException, EventSameDateAndTitleException, NotUniqueIdentifierException {
-		
-		final int availableSeatsOverall = 5999;
-
-		// assert method getIdentifikator exists and set value
-		assertTrue(event.getClass().getMethod("getAvailableSeatsOverall") != null);
-		assertTrue(event.getClass().getMethod("setAvailableSeatsOverall", int.class) != null);
-		event.setAvailableSeatsOverall(availableSeatsOverall);
-
-		int result = event.getAvailableSeatsOverall();
-		assertEquals("Retrieved wrong value", availableSeatsOverall, result);
-	}
-
-	/*
-	 * Identifier must be unique
-	 */
-	@Test(expected = NotUniqueIdentifierException.class)
-	public void testUnique_Identifier() throws EventSameDateAndTitleException, NotUniqueIdentifierException {
-		event.setIdentificator(testName.toString());
-		//Importtant not same date and Titel! Therefor date set to yesterday
-		final Event eventDouble = new Event(event.getTitle(),LocalDate.now().minus(Period.ofDays(1)), event.getTicketprice(), event.getAvailableSeatsOverall());
-		eventDouble.setIdentificator(testName.toString());
-	}
-	
-	/*
-	 * There cannot be the same event on the same date
-	 * null values either for Title or for the date will be ignored in this case
-	 */
-	@Test(expected = EventSameDateAndTitleException.class)
-	public void testUnique_NameAndDateEvent() throws EventSameDateAndTitleException, NotUniqueIdentifierException{
-		@SuppressWarnings("unused")
-		final Event event1 = new Event(event.getTitle(), event.getDateAndTime(), event.getTicketprice(), event.getAvailableSeatsOverall());
-	}
-
+        assertTrue(e1.getClass().getMethod("equals", Event.class) != null);
+        assertNotEquals("Objects shoudl not be the same. Different UUID", e1.equals(e2));
+    }
 }
