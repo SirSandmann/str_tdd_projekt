@@ -1,6 +1,7 @@
 package serviceTest;
 
 import custom_exceptions.CustomerSameNameException;
+import custom_exceptions.NotUniqueIdentifierException;
 import model.Customer;
 import model.Event;
 import org.junit.Before;
@@ -35,7 +36,7 @@ public class ServiceTest {
     }
 
     @Test
-    public void addEvent() throws CustomerSameNameException {
+    public void addEvent() throws NotUniqueIdentifierException {
         String name = "König der Löwen";
         Double price = 129.99;
         Integer freeSeats = 2000;
@@ -47,7 +48,7 @@ public class ServiceTest {
 
         assertEquals("Odd number of elements in customers collection", 1, Service.getEvents().size());
 
-        Event eGet = Service.getEvents().get(0);
+        Event eGet = Service.getEvents().get(e.getUuid());
 
         assertTrue("Added customer is not correct persisted", e.equals(eGet));
     }

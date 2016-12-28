@@ -1,15 +1,16 @@
 package service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 import custom_exceptions.CustomerSameNameException;
+import custom_exceptions.NotUniqueIdentifierException;
 import model.Customer;
 import model.Event;
 
 public class Service {
     private static HashMap<String, Customer> customers = new HashMap<String, Customer>();
-    private static ArrayList<Event> events = new ArrayList<Event>();
+    private static HashMap<UUID, Event> events = new HashMap<UUID, Event>();
 
     public static void addCustomer(Customer c) throws CustomerSameNameException {
         if (!customers.containsKey(c.getName())) {
@@ -19,8 +20,12 @@ public class Service {
         }
     }
 
-    public static void addEvent(Event e){
-        events.add(e);
+    public static void addEvent(Event e) throws NotUniqueIdentifierException {
+        if (!events.containsKey(e.getUuid())) {
+            events.put(e.getUuid(), e);
+        } else {
+            throw new NotUniqueIdentifierException();
+        }
     }
 
     public static void reset() {
@@ -28,11 +33,11 @@ public class Service {
         resetCustomers();
     }
 
-    private static void resetCustomers(){
+    private static void resetCustomers() {
         customers.clear();
     }
 
-    private static void resetEvents(){
+    private static void resetEvents() {
         events.clear();
     }
 
@@ -40,7 +45,7 @@ public class Service {
         return customers;
     }
 
-    public static ArrayList<Event> getEvents() {
+    public static HashMap<UUID, Event> getEvents() {
         return events;
     }
 }
