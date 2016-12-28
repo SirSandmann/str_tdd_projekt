@@ -17,7 +17,6 @@ public class CustomerTest {
         Customer c = new Customer(name, address);
 
         assertTrue(c.getClass().getMethod("getName") != null);
-        assertTrue(c.getClass().getMethod("setName", String.class) != null);
 
         assertEquals("Retrieved wrong value", name, c.getName());
     }
@@ -27,7 +26,6 @@ public class CustomerTest {
         Customer c = new Customer(name, address);
 
         assertTrue(c.getClass().getMethod("getAddress") != null);
-        assertTrue(c.getClass().getMethod("setAddress", String.class) != null);
 
         assertEquals("Retrieved wrong value", address, c.getAddress());
     }
