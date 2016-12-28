@@ -2,6 +2,8 @@ package service;
 
 import java.util.ArrayList;
 
+import custom_exceptions.NameOnBlacklistException;
+
 public class BlacklistService {
 	public static ArrayList<String> blacklist = new ArrayList<String>();
 	
@@ -11,18 +13,9 @@ public class BlacklistService {
 		blacklist.add("Provokateur");
 	}
 	
-
-	public ArrayList<String> getBlacklist() {
-		return blacklist;
-	}
-
-	public void setBlacklist(ArrayList<String> blacklist) {
-		this.blacklist = blacklist;
-	}
-	
-	public boolean isInBlacklist(String s){
+	public boolean isInBlacklist(String s) throws Exception{
 		if(blacklist.contains(s)){
-			return true;
+			throw new NameOnBlacklistException();
 		}else{
 			return false;
 		}

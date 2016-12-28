@@ -28,7 +28,7 @@ public class BlacklistServiceTest {
 	public void testBlacklistService() throws Exception {
 		// get random customer on Blacklist
 		Customer c = new Customer(
-				blacklistService.getBlacklist().get(new Random().nextInt(blacklistService.getBlacklist().size())),
+				BlacklistService.blacklist.get(new Random().nextInt(BlacklistService.blacklist.size())),
 				"some Address");
 		Event e = new Event("Aufführung", new Date(), 59.99, 15000);
 		Reservation r = new Reservation(c.getName(), e.getUuid(), 50);
