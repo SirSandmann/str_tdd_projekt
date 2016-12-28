@@ -49,21 +49,4 @@ public class ListInstancesTest {
 		}
 		assertArrayEquals("Not complete List retrieved", referenceList.toArray(), service.getEvents().toArray());
 	}
-	
-	/*
-	 * Create Many Customers and compare List of all created Elements with the List of the customer class
-	 * Different Names because of No Double Name Exceptions
-	 */
-	@Test
-	public void testListCustomers() throws CustomerSameNameException{
-		ArrayList<Customer> referenceList= new ArrayList<Customer>();
-		
-		//add the already created event and afterwards some random events
-		referenceList.add(customer);
-		for(int i = 1; i < 5 ; i++){
-			Customer c = new Customer("HansPeter" + i, "Ricklinger Stadtweg 120");
-			referenceList.add(c);
-		}
-		//assertArrayEquals("Not complete List retrieved", referenceList.toArray(), service.getCustomers().toArray());
-	}
 }
