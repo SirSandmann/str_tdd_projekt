@@ -10,6 +10,9 @@ public class Event {
     private double price;
     private int seats;
 
+    public Event() {
+    }
+
     public Event(String title, Date date, double price, int seats) {
         this.setTitle(title);
         this.setDate(date);

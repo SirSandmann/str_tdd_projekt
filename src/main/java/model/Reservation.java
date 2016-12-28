@@ -8,6 +8,9 @@ public class Reservation {
     private UUID eventUuid;
     private Integer seats;
 
+    public Reservation() {
+    }
+
     public Reservation(String customerName, UUID eventUuid, Integer seats) {
         this.setUuid(UUID.randomUUID());
         this.setCustomerUuid(customerName);
@@ -52,15 +55,15 @@ public class Reservation {
     }
 
     public void decreaseSeats(Integer value) {
-        if(this.seats - value >= 0) {
+        if (this.seats - value >= 0) {
             this.seats -= value;
         }
     }
 
     public boolean equals(Reservation r) {
-        return (r.getUuid() == this.uuid &&
+        return (r.getUuid().equals(this.uuid) &&
                 r.getSeats().equals(this.seats) &&
-                r.getEventUuid() == this.eventUuid &&
+                r.getEventUuid().equals(this.eventUuid) &&
                 r.getCustomerName().equals(this.customerName));
     }
 }

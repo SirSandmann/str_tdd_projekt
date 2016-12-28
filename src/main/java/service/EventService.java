@@ -15,6 +15,7 @@ public class EventService {
         } else {
             throw new NotUniqueIdentifierException();
         }
+        PersistenceService.saveEvents();
     }
 
     public static void reset() {

@@ -14,6 +14,7 @@ public class CustomerService {
         } else {
             throw new CustomerSameNameException();
         }
+        PersistenceService.saveCustomers();
     }
 
     public static void reset() {
