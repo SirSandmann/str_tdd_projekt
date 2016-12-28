@@ -13,6 +13,7 @@ import service.EventService;
 import service.ReservationService;
 
 import java.util.Date;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -89,6 +90,23 @@ public class ReservationServiceTest {
 
         Reservation rFound = ReservationService.findReservation(c.getName(), e.getUuid());
         assertTrue("Objects are not equals", r.equals(rFound));
+    }
+
+    @Test
+    public void findNullReservation() throws NotUniqueIdentifierException, CustomerSameNameException, NotEnoughFreeSeatsException {
+        Event e = new Event("König der Löwen", new Date(), 129.99, 2000);
+        EventService.addEvent(e);
+        Event eGet = EventService.getEvents().get(e.getUuid());
+
+        Customer c = new Customer("Klaus", "Musterstraße 1a");
+        CustomerService.addCustomer(c);
+        Customer cGet = CustomerService.getCustomers().get(c.getName());
+
+        Reservation r = new Reservation(cGet.getName(), eGet.getUuid(), 3);
+        ReservationService.addReservation(r);
+
+        Reservation rFound = ReservationService.findReservation(c.getName(), UUID.randomUUID());
+        assertEquals("Reservation should not be found", null, rFound);
     }
 
     @Test(expected = NotEnoughFreeSeatsException.class)
