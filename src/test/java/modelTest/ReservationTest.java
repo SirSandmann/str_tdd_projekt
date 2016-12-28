@@ -48,6 +48,28 @@ public class ReservationTest {
     }
 
     @Test
+    public void increaseSeats() throws Exception {
+        Reservation r = new Reservation(customerName, eventUuid, seats);
+
+        assertTrue(r.getClass().getMethod("increaseSeats", Integer.class) != null);
+        r.increaseSeats(5);
+        Integer shouldSeats = seats + 5;
+
+        assertEquals("Seats are not equal", shouldSeats, r.getSeats());
+    }
+
+    @Test
+    public void decreaseSeats() throws Exception {
+        Reservation r = new Reservation(customerName, eventUuid, seats);
+
+        assertTrue(r.getClass().getMethod("decreaseSeats", Integer.class) != null);
+        r.decreaseSeats(1);
+        Integer shouldSeats = seats - 1;
+
+        assertEquals("Seats are not equal", shouldSeats, r.getSeats());
+    }
+
+    @Test
     public void equals() throws Exception {
         Reservation r1 = new Reservation(customerName, eventUuid, seats);
         Reservation r2 = new Reservation(customerName, eventUuid, seats);

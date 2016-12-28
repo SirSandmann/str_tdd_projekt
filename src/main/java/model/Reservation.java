@@ -61,6 +61,16 @@ public class Reservation {
         this.seats = seats;
     }
 
+    public void increaseSeats(Integer value) {
+        this.seats += value;
+    }
+
+    public void decreaseSeats(Integer value) {
+        if(this.seats - value >= 0) {
+            this.seats -= value;
+        }
+    }
+
     public boolean equals(Reservation r) {
         return (r.getUuid() == this.uuid &&
                 r.getSeats().equals(this.seats) &&
