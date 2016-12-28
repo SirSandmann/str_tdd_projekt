@@ -1,6 +1,7 @@
 package service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import model.Customer;
 import model.Event;
@@ -12,7 +13,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class PersistenceService {
-    private static ObjectMapper mapper = new ObjectMapper();
+    private static ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.CLOSE_CLOSEABLE.INDENT_OUTPUT);
 
     static void saveCustomers() {
         try {
