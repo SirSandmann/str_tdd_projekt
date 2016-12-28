@@ -1,100 +1,58 @@
 package modelTest;
 
 import model.Reservation;
-import model.Customer;
-import model.Event;
-
-import static org.junit.Assert.*;
-
-import java.time.LocalDate;
-import java.util.Date;
-
-import org.junit.Before;
 import org.junit.Test;
 
-import custom_exceptions.CustomerSameNameException;
-import custom_exceptions.EventSameDateAndTitleException;
-import custom_exceptions.NotUniqueIdentifierException;
+import java.util.UUID;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 public class ReservationTest {
-	Event event = null;
-	Customer customer = null;
-	Reservation reservation = null;
+    private UUID uuid = UUID.randomUUID();
+    private UUID eventUuid = UUID.randomUUID();
+    private String customerName = "Klaus";
+    private Integer seats = 3;
 
-	@Before
-	public void clearAllLists() throws CustomerSameNameException, NotUniqueIdentifierException, EventSameDateAndTitleException{
-		Reservation.clearReservations();
-		//Customer.clearAllCustomers();
-		
-		event = new Event("EventTitle", new Date(),59.99, 10000);
-		customer = new Customer("Peter CustName", "Ricklinger Stadtweg 120");
-		reservation = new Reservation(customer, event, 5000);
-	}
-	
-	@Test
-	public void testGetterAndSetter_Identificator() throws NoSuchMethodException, CustomerSameNameException, NotUniqueIdentifierException, EventSameDateAndTitleException {
-		
-		final String identificator = "Reservierung 1";
+    @Test
+    public void getUuid() throws Exception {
+        Reservation r = new Reservation(customerName, eventUuid, seats);
 
-		assertTrue(reservation.getClass().getMethod("getIdentificator") != null);
-		assertTrue(reservation.getClass().getMethod("setIdentificator", String.class) != null);
-		reservation.setIdentificator(identificator);
+        assertTrue(r.getClass().getMethod("getUuid") != null);
+        assertNotEquals("UUID should be unique", uuid, r.getUuid());
+    }
 
-		String result = reservation.getIdentificator();
-		assertEquals("Retrieved wrong value", identificator, result);
-	
-	}
-	
-	@Test
-	public void testGetterAndSetter_Customer() throws NoSuchMethodException, CustomerSameNameException, NotUniqueIdentifierException, EventSameDateAndTitleException {
-		
-		assertTrue(reservation.getClass().getMethod("getCustomer") != null);
-		assertTrue(reservation.getClass().getMethod("setCustomer", Customer.class) != null);
-		reservation.setCustomer(customer);
+    @Test
+    public void getCustomerName() throws Exception {
+        Reservation r = new Reservation(customerName, eventUuid, seats);
 
-		Customer result = reservation.getCustomer();
-		assertEquals("Retrieved wrong value", customer, result);
+        assertTrue(r.getClass().getMethod("getCustomerName") != null);
+        assertEquals("Name is not equal", customerName, r.getCustomerName());
+    }
 
-	}
-	
-	@Test
-	public void testGetterAndSetter_Event() throws NoSuchMethodException, NotUniqueIdentifierException, EventSameDateAndTitleException, CustomerSameNameException {
-		
-		assertTrue(reservation.getClass().getMethod("getEvent") != null);
-		assertTrue(reservation.getClass().getMethod("setEvent", Event.class) != null);
-		reservation.setEvent(event);
+    @Test
+    public void getEventUuid() throws Exception {
+        Reservation r = new Reservation(customerName, eventUuid, seats);
 
-		Event result = reservation.getEvent();
-		assertEquals("Retrieved wrong value", event, result);
+        assertTrue(r.getClass().getMethod("getEventUuid") != null);
+        assertEquals("EventUuid is not equal", eventUuid, r.getEventUuid());
+    }
 
-	}
-	
-	@Test
-	public void testGetterAndSetter_AmountOfReservatedSeats() throws NoSuchMethodException, CustomerSameNameException, NotUniqueIdentifierException, EventSameDateAndTitleException {
-		
-		final int amountOfReservatedSeats = 5;
-		
-		assertTrue(reservation.getClass().getMethod("getAmountOfReservatedSeats") != null);
-		assertTrue(reservation.getClass().getMethod("setAmountOfReservatedSeats", int.class) != null);
-		reservation.setAmountOfReservatedSeats(amountOfReservatedSeats);
+    @Test
+    public void getSeats() throws Exception {
+        Reservation r = new Reservation(customerName, eventUuid, seats);
 
-		int result = reservation.getAmountOfReservatedSeats();
-		assertEquals("Retrieved wrong value", amountOfReservatedSeats, result);
+        assertTrue(r.getClass().getMethod("getSeats") != null);
+        assertEquals("Seats are not equal", seats, r.getSeats());
+    }
 
-	}
-	
-	/*
-	 * Identifier must be unique
-	 */
-	@Test(expected = NotUniqueIdentifierException.class)
-	public void testUnique_Identifier() throws CustomerSameNameException, NotUniqueIdentifierException, EventSameDateAndTitleException{
+    @Test
+    public void equals() throws Exception {
+        Reservation r1 = new Reservation(customerName, eventUuid, seats);
+        Reservation r2 = new Reservation(customerName, eventUuid, seats);
 
-		String identificator = "ReservationID";
-		
-		reservation.setIdentificator(identificator);
-		final Reservation reservationDouble = new Reservation(reservation.getCustomer(), reservation.getEvent(), reservation.getAmountOfReservatedSeats());
-		reservationDouble.setIdentificator(identificator);
-
-	}
-	
+        assertTrue(r1.getClass().getMethod("equals", Reservation.class) != null);
+        assertNotEquals("Objects should not be the same. Different UUID", r1.equals(r2));
+    }
 }

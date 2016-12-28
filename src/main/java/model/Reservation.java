@@ -1,88 +1,70 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.UUID;
 
-import custom_exceptions.NotUniqueIdentifierException;
+public class Reservation {
+    private UUID uuid;
+    private String customerName;
+    private UUID eventUuid;
+    private Integer seats;
 
-public class Reservation { 
-	
-	//Added for verifying that Events have a unique Identifier 
-	private static ArrayList<Reservation> reservations = new ArrayList<Reservation>();
-	
-	private String identificator;
-	private Customer customer;
-	private Event event;
-	private int amountOfReservatedSeats;
-	
-	public Reservation(Customer c, Event e, int amountOfReservatedSeats) throws NotUniqueIdentifierException{
-		this.setCustomer(c);
-		this.setEvent(e);
-		this.setAmountOfReservatedSeats(amountOfReservatedSeats);
-		this.setIdentificator(UUID.randomUUID().toString());
-		reservations.add(this);
-	}
-	
-	public String getIdentificator() {
-		
-		return identificator;
-	}
-		
-	public void setIdentificator(String identificator) throws NotUniqueIdentifierException {
-		if(isIdentificatorUnique(identificator)){
-			this.identificator = identificator;
-		}else{
-			throw new NotUniqueIdentifierException();
-		}
-		
-	}
-	
-	public Customer getCustomer() {
-		
-		return customer;
-	}
-	
-	public void setCustomer(Customer c) {
-		
-		this.customer = c;
-	}
-	
-	public Event getEvent() {
-		
-		return event;
-	}
-	
-	public void setEvent(Event e) {
-		
-		this.event = e;
-	}
-	
-	public int getAmountOfReservatedSeats() {
-		
-		return amountOfReservatedSeats;
-	}
-	
-	public void setAmountOfReservatedSeats(int amountOfReservatedSeats) {
-		
-		this.amountOfReservatedSeats = amountOfReservatedSeats;
-	}
-	
-	//method for checking if the identifier is unique
-	private boolean isIdentificatorUnique(String s){
-		for(Reservation r : getReservations()) {
-            if( r.getIdentificator().equals(s) && r != this) {
-                return false;
-            }
-        }
-		return true;
-	}
-	
-	public static ArrayList<Reservation> getReservations(){
-		return reservations;
-	}
-	
-	public static void clearReservations(){
-		reservations.clear();
-	}
+    public Reservation(Customer c, Event e, Integer seats) {
+        this.setUuid(UUID.randomUUID());
+        this.setCustomerUuid(c.getName());
+        this.setEventUuid(e.getUuid());
+        this.setSeats(seats);
+    }
 
+    public Reservation(String customerName, Event e, Integer seats) {
+        this.setUuid(UUID.randomUUID());
+        this.setCustomerUuid(customerName);
+        this.setEventUuid(e.getUuid());
+        this.setSeats(seats);
+    }
+
+    public Reservation(String customerName, UUID eventUuid, Integer seats) {
+        this.setUuid(UUID.randomUUID());
+        this.setCustomerUuid(customerName);
+        this.setEventUuid(eventUuid);
+        this.setSeats(seats);
+    }
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    private void setUuid(UUID uuid) {
+        this.uuid = uuid;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    private void setCustomerUuid(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public UUID getEventUuid() {
+        return eventUuid;
+    }
+
+    private void setEventUuid(UUID eventUuid) {
+        this.eventUuid = eventUuid;
+    }
+
+    public Integer getSeats() {
+        return seats;
+    }
+
+    private void setSeats(Integer seats) {
+        this.seats = seats;
+    }
+
+    public boolean equals(Reservation r) {
+        return (r.getUuid() == this.uuid &&
+                r.getSeats().equals(this.seats) &&
+                r.getEventUuid() == this.eventUuid &&
+                r.getCustomerName().equals(this.customerName));
+    }
 }

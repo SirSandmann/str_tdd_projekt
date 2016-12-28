@@ -66,6 +66,6 @@ public class EventTest {
         Event e2 = new Event(title, date, price, seats);
 
         assertTrue(e1.getClass().getMethod("equals", Event.class) != null);
-        assertNotEquals("Objects shoudl not be the same. Different UUID", e1.equals(e2));
+        assertNotEquals("Objects should not be the same. Different UUID", e1.equals(e2));
     }
 }
