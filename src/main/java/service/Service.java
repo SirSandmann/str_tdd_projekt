@@ -34,6 +34,12 @@ public class Service {
 
     public static void addReservation(Reservation r) throws NotUniqueIdentifierException {
         if (!reservations.containsKey(r.getUuid())) {
+            for (Reservation it : reservations.values()) {
+                if (r.getCustomerName().equals(it.getCustomerName()) && r.getEventUuid() == it.getEventUuid()) {
+                    r.increaseSeats(it.getSeats());
+                    reservations.remove(it.getUuid());
+                }
+            }
             reservations.put(r.getUuid(), r);
         } else {
             throw new NotUniqueIdentifierException();

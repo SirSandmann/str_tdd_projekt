@@ -79,6 +79,32 @@ public class ServiceTest {
     }
 
     @Test
+    public void addDoubleReservation() throws NotUniqueIdentifierException, CustomerSameNameException {
+        Event e = new Event("König der Löwen", new Date(), 129.99, 2000);
+        Service.addEvent(e);
+        Event eGet = Service.getEvents().get(e.getUuid());
+
+        Customer c = new Customer("Klaus", "Musterstraße 1a");
+        Service.addCustomer(c);
+        Customer cGet = Service.getCustomers().get(c.getName());
+
+        Reservation r = new Reservation(cGet.getName(), eGet.getUuid(), 3);
+        Service.addReservation(r);
+        assertEquals("Odd number of elements in reservations collection", 1, Service.getReservations().size());
+
+        Reservation r2 = new Reservation(cGet.getName(), eGet.getUuid(), 2);
+        Service.addReservation(r2);
+        assertEquals("Odd number of elements in reservations collection", 1, Service.getReservations().size());
+
+        Reservation r1Get = Service.getReservations().get(r.getUuid());
+        Reservation r2Get = Service.getReservations().get(r2.getUuid());
+        Integer shouldSeats = 5;
+
+        assertEquals("Seat number not incremented on second reservation", shouldSeats, r2Get.getSeats());
+        assertEquals("Old reservation is not removed", null, r1Get);
+    }
+
+    @Test
     public void getFreeSeats() throws NotUniqueIdentifierException, CustomerSameNameException {
         Event e = new Event("König der Löwen", new Date(), 129.99, 2000);
         Service.addEvent(e);
