@@ -5,6 +5,9 @@ public class Customer {
     private String name;
     private String address;
 
+    public Customer() {
+    }
+
     public Customer(String name, String address) {
         this.setName(name);
         this.setAddress(address);
@@ -26,7 +29,7 @@ public class Customer {
         this.address = address;
     }
 
-    public boolean equals (Customer c){
+    public boolean equals(Customer c) {
         return (c.getName().equals(this.name) && c.getAddress().equals(this.address));
     }
 }

@@ -10,6 +10,9 @@ public class Event {
     private double price;
     private int seats;
 
+    public Event() {
+    }
+
     public Event(String title, Date date, double price, int seats) {
         this.setTitle(title);
         this.setDate(date);
@@ -60,9 +63,9 @@ public class Event {
 
     public boolean equals(Event e) {
         return (e.getTitle().equals(this.title) &&
-                e.getDate() == this.date &&
+                e.getDate().equals(this.date) &&
                 e.getPrice() == this.price &&
                 e.getSeats() == this.seats &&
-                e.getUuid() == this.uuid);
+                e.getUuid().equals(this.uuid));
     }
 }

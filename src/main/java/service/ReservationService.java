@@ -26,6 +26,7 @@ public class ReservationService {
         } else {
             throw new NotUniqueIdentifierException();
         }
+        PersistenceService.saveReservations();
     }
 
     public static Reservation findReservation(String customerName, UUID eventUuid) {
