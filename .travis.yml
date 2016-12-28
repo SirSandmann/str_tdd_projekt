@@ -1,2 +1,4 @@
-before_install:
-  - cd java
+language: java
+sudo: false # faster builds
+
+script: "mvn clean test"
