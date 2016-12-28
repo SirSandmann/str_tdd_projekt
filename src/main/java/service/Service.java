@@ -1,11 +1,10 @@
 package service;
 
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.UUID;
 
 import custom_exceptions.CustomerSameNameException;
+import custom_exceptions.NotEnoughFreeSeatsException;
 import custom_exceptions.NotUniqueIdentifierException;
 import model.Customer;
 import model.Event;
@@ -32,15 +31,19 @@ public class Service {
         }
     }
 
-    public static void addReservation(Reservation r) throws NotUniqueIdentifierException {
+    public static void addReservation(Reservation r) throws NotUniqueIdentifierException, NotEnoughFreeSeatsException {
         if (!reservations.containsKey(r.getUuid())) {
-            for (Reservation it : reservations.values()) {
-                if (r.getCustomerName().equals(it.getCustomerName()) && r.getEventUuid() == it.getEventUuid()) {
-                    r.increaseSeats(it.getSeats());
-                    reservations.remove(it.getUuid());
+            if(getFreeSeats(r.getEventUuid()) >= r.getSeats()) {
+                for (Reservation it : reservations.values()) {
+                    if (r.getCustomerName().equals(it.getCustomerName()) && r.getEventUuid() == it.getEventUuid()) {
+                        r.increaseSeats(it.getSeats());
+                        reservations.remove(it.getUuid());
+                    }
                 }
+                reservations.put(r.getUuid(), r);
+            } else {
+                throw new NotEnoughFreeSeatsException();
             }
-            reservations.put(r.getUuid(), r);
         } else {
             throw new NotUniqueIdentifierException();
         }

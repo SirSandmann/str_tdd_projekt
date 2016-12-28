@@ -1,6 +1,7 @@
 package serviceTest;
 
 import custom_exceptions.CustomerSameNameException;
+import custom_exceptions.NotEnoughFreeSeatsException;
 import custom_exceptions.NotUniqueIdentifierException;
 import model.Customer;
 import model.Event;
@@ -57,7 +58,7 @@ public class ServiceTest {
     }
 
     @Test
-    public void addReservation() throws NotUniqueIdentifierException, CustomerSameNameException {
+    public void addReservation() throws NotUniqueIdentifierException, CustomerSameNameException, NotEnoughFreeSeatsException {
         Event e = new Event("König der Löwen", new Date(), 129.99, 2000);
         Service.addEvent(e);
         assertEquals("Odd number of elements in events collection", 1, Service.getEvents().size());
@@ -79,7 +80,7 @@ public class ServiceTest {
     }
 
     @Test
-    public void addDoubleReservation() throws NotUniqueIdentifierException, CustomerSameNameException {
+    public void addDoubleReservation() throws NotUniqueIdentifierException, CustomerSameNameException, NotEnoughFreeSeatsException {
         Event e = new Event("König der Löwen", new Date(), 129.99, 2000);
         Service.addEvent(e);
         Event eGet = Service.getEvents().get(e.getUuid());
@@ -105,7 +106,7 @@ public class ServiceTest {
     }
 
     @Test
-    public void findReservation() throws NotUniqueIdentifierException, CustomerSameNameException {
+    public void findReservation() throws NotUniqueIdentifierException, CustomerSameNameException, NotEnoughFreeSeatsException {
         Event e = new Event("König der Löwen", new Date(), 129.99, 2000);
         Service.addEvent(e);
         Event eGet = Service.getEvents().get(e.getUuid());
@@ -121,8 +122,26 @@ public class ServiceTest {
         assertTrue("Objects are not equals", r.equals(rFound));
     }
 
+    @Test(expected = NotEnoughFreeSeatsException.class)
+    public void rejectReservation() throws NotUniqueIdentifierException, CustomerSameNameException, NotEnoughFreeSeatsException {
+        Event e = new Event("König der Löwen", new Date(), 129.99, 2000);
+        Service.addEvent(e);
+        Event eGet = Service.getEvents().get(e.getUuid());
+
+        Customer c = new Customer("Klaus", "Musterstraße 1a");
+        Service.addCustomer(c);
+        Customer cGet = Service.getCustomers().get(c.getName());
+
+        Reservation r = new Reservation(cGet.getName(), eGet.getUuid(), 1999);
+        Service.addReservation(r);
+        Reservation r2 = new Reservation(cGet.getName(), eGet.getUuid(), 1);
+        Service.addReservation(r2);
+        Reservation r3 = new Reservation(cGet.getName(), eGet.getUuid(), 1);
+        Service.addReservation(r3);
+    }
+
     @Test
-    public void getFreeSeats() throws NotUniqueIdentifierException, CustomerSameNameException {
+    public void getFreeSeats() throws NotUniqueIdentifierException, CustomerSameNameException, NotEnoughFreeSeatsException {
         Event e = new Event("König der Löwen", new Date(), 129.99, 2000);
         Service.addEvent(e);
         Event eGet = Service.getEvents().get(e.getUuid());
