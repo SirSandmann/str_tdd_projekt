@@ -105,6 +105,23 @@ public class ServiceTest {
     }
 
     @Test
+    public void findReservation() throws NotUniqueIdentifierException, CustomerSameNameException {
+        Event e = new Event("König der Löwen", new Date(), 129.99, 2000);
+        Service.addEvent(e);
+        Event eGet = Service.getEvents().get(e.getUuid());
+
+        Customer c = new Customer("Klaus", "Musterstraße 1a");
+        Service.addCustomer(c);
+        Customer cGet = Service.getCustomers().get(c.getName());
+
+        Reservation r = new Reservation(cGet.getName(), eGet.getUuid(), 3);
+        Service.addReservation(r);
+
+        Reservation rFound = Service.findReservation(c.getName(), e.getUuid());
+        assertTrue("Objects are not equals", r.equals(rFound));
+    }
+
+    @Test
     public void getFreeSeats() throws NotUniqueIdentifierException, CustomerSameNameException {
         Event e = new Event("König der Löwen", new Date(), 129.99, 2000);
         Service.addEvent(e);

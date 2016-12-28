@@ -46,6 +46,15 @@ public class Service {
         }
     }
 
+    public static Reservation findReservation(String customerName, UUID eventUuid) {
+        for (Reservation it : reservations.values()) {
+            if (customerName.equals(it.getCustomerName()) && eventUuid == it.getEventUuid()) {
+                return it;
+            }
+        }
+        return null;
+    }
+
     public static Integer getFreeSeats(UUID eventUuid) {
         Event e = events.get(eventUuid);
         Integer freeSeats = e.getSeats();
