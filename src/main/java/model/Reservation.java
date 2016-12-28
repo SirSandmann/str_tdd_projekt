@@ -8,20 +8,6 @@ public class Reservation {
     private UUID eventUuid;
     private Integer seats;
 
-    public Reservation(Customer c, Event e, Integer seats) {
-        this.setUuid(UUID.randomUUID());
-        this.setCustomerUuid(c.getName());
-        this.setEventUuid(e.getUuid());
-        this.setSeats(seats);
-    }
-
-    public Reservation(String customerName, Event e, Integer seats) {
-        this.setUuid(UUID.randomUUID());
-        this.setCustomerUuid(customerName);
-        this.setEventUuid(e.getUuid());
-        this.setSeats(seats);
-    }
-
     public Reservation(String customerName, UUID eventUuid, Integer seats) {
         this.setUuid(UUID.randomUUID());
         this.setCustomerUuid(customerName);
