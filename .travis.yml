@@ -1,5 +1,6 @@
 language: java
  - mvn test
+ - mvn clean verify
  - mvn cobertura:cobertura
 
 after_success:
