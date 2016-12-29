@@ -1,24 +1,24 @@
 package serviceTest;
 
-import custom_exceptions.CustomerSameNameException;
-import custom_exceptions.NotEnoughFreeSeatsException;
-import custom_exceptions.NotUniqueIdentifierException;
-import model.Customer;
-import model.Event;
-import model.Reservation;
-import org.junit.Before;
-import org.junit.Test;
-import service.CustomerService;
-import service.EventService;
-import service.PersistenceService;
-import service.ReservationService;
+import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.UUID;
 
-import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.assertEquals;
+import org.junit.Before;
+import org.junit.Test;
+
+import custom_exceptions.CustomerSameNameException;
+import custom_exceptions.NotUniqueIdentifierException;
+import model.Customer;
+import model.Event;
+import model.Reservation;
+import service.CustomerService;
+import service.EventService;
+import service.PersistenceService;
+import service.ReservationService;
 
 public class PersistenceServiceTest {
     @Before
@@ -80,7 +80,7 @@ public class PersistenceServiceTest {
     }
 
     @Test
-    public void loadReservations() throws NotUniqueIdentifierException, CustomerSameNameException, NotEnoughFreeSeatsException {
+    public void loadReservations() throws Exception {
         Event e = new Event("König der Löwen", new Date(), 129.99, 2000);
         EventService.addEvent(e);
         Event eGet = EventService.getEvents().get(e.getUuid());

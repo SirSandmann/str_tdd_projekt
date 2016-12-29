@@ -2,6 +2,9 @@ package model;
 
 import java.util.UUID;
 
+import custom_exceptions.NameOnBlacklistException;
+import service.BlacklistService;
+
 public class Reservation {
     private UUID uuid;
     private String customerName;
@@ -11,11 +14,15 @@ public class Reservation {
     public Reservation() {
     }
 
-    public Reservation(String customerName, UUID eventUuid, Integer seats) {
-        this.setUuid(UUID.randomUUID());
-        this.setCustomerUuid(customerName);
-        this.setEventUuid(eventUuid);
-        this.setSeats(seats);
+    public Reservation(String customerName, UUID eventUuid, Integer seats) throws Exception {
+    	if(!BlacklistService.isInBlacklist(customerName)){
+	        this.setUuid(UUID.randomUUID());
+	        this.setCustomerName(customerName);
+	        this.setEventUuid(eventUuid);
+	        this.setSeats(seats);
+    	}else{
+    		throw new NameOnBlacklistException();
+    	}
     }
 
     public UUID getUuid() {
@@ -30,7 +37,7 @@ public class Reservation {
         return customerName;
     }
 
-    private void setCustomerUuid(String customerName) {
+    private void setCustomerName(String customerName) {
         this.customerName = customerName;
     }
 
