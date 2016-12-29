@@ -2,9 +2,6 @@ package model;
 
 import java.util.UUID;
 
-import custom_exceptions.NameOnBlacklistException;
-import service.BlacklistService;
-
 public class Reservation {
     private UUID uuid;
     private String customerName;
@@ -15,14 +12,10 @@ public class Reservation {
     }
 
     public Reservation(String customerName, UUID eventUuid, Integer seats) throws Exception {
-    	if(!BlacklistService.isInBlacklist(customerName)){
-	        this.setUuid(UUID.randomUUID());
-	        this.setCustomerName(customerName);
-	        this.setEventUuid(eventUuid);
-	        this.setSeats(seats);
-    	}else{
-    		throw new NameOnBlacklistException();
-    	}
+        this.setUuid(UUID.randomUUID());
+        this.setCustomerName(customerName);
+        this.setEventUuid(eventUuid);
+        this.setSeats(seats);
     }
 
     public UUID getUuid() {

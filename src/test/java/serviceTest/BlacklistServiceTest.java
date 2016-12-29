@@ -1,47 +1,37 @@
 package serviceTest;
 
-import java.util.Date;
-import java.util.Random;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import custom_exceptions.NameOnBlacklistException;
-import model.Customer;
-import model.Event;
-import model.Reservation;
-import service.BlacklistService;
+import service.BlacklistServiceMock;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BlacklistServiceTest {
+	
+	@Mock
+	BlacklistServiceMock blackListServiceMock;
 
-    @Mock
-    private BlacklistService blacklistService;
-
-    //Name in Blacklist exception
-	@SuppressWarnings("unused")
-	@Test(expected = NameOnBlacklistException.class)
+	@Test
 	public void testBlacklistServiceInBlacklist() throws Exception {
 		// get random customer on Blacklist
-		Customer c = new Customer(
-				BlacklistService.blacklist.get(new Random().nextInt(BlacklistService.blacklist.size())),
-				"some Address");
-		Event e = new Event("Aufführung", new Date(), 59.99, 15000);
-		Reservation r = new Reservation(c.getName(), e.getUuid(), 50);
+		String blackListName = "BlackListName";
+		when(blackListServiceMock.isInBlacklist(blackListName)).thenReturn(true);
+		assertTrue("Service should return true", blackListServiceMock.isInBlacklist(blackListName));
 	}
 	
 	
-	@SuppressWarnings("unused")
 	@Test
 	public void testBlacklistServiceNotInBlacklist() throws Exception {
-		// get random customer on Blacklist
-		Customer c = new Customer("Peter Mitbenehmen","some Address");
-		Event e = new Event("Aufführung", new Date(), 59.99, 15000);
-		Reservation r = new Reservation(c.getName(), e.getUuid(), 50);
+		// get random customer not on the Blacklist
+		String nonBlackListName = "Peter GuterBesucher";
+		when(blackListServiceMock.isInBlacklist(nonBlackListName)).thenReturn(false);
+		assertFalse("Service should return false", blackListServiceMock.isInBlacklist(nonBlackListName));;
 	}
 	
-	
-
 }
