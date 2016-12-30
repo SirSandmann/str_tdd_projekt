@@ -11,11 +11,11 @@ import java.util.UUID;
 
 public class ReservationService {
     private static HashMap<UUID, Reservation> reservations = new HashMap<UUID, Reservation>();
-    private static BlacklistService blacklist = new BlacklistService();
+    private static BlacklistService blacklistService;
     private static EmailService emailService;
 
     public static void addReservation(Reservation r) throws NotUniqueIdentifierException, NotEnoughFreeSeatsException, NameOnBlacklistException {
-        if(blacklist != null && blacklist.isInBlacklist(r.getCustomerName())) {
+        if(blacklistService != null && blacklistService.isInBlacklist(r.getCustomerName())) {
             throw new NameOnBlacklistException();
         }
         if (!reservations.containsKey(r.getUuid())) {
@@ -59,6 +59,10 @@ public class ReservationService {
         }
 
         return freeSeats;
+    }
+
+    public static void setBlacklistService(BlacklistService bs) {
+        blacklistService = bs;
     }
 
     public static void setEmailService(EmailService es) {
