@@ -12,12 +12,12 @@ import java.util.UUID;
 public class ReservationService {
     private static HashMap<UUID, Reservation> reservations = new HashMap<UUID, Reservation>();
     private static BlacklistService blacklist = new BlacklistService();
+    private static EmailService emailService;
 
     public static void addReservation(Reservation r) throws NotUniqueIdentifierException, NotEnoughFreeSeatsException, NameOnBlacklistException {
         if(blacklist != null && blacklist.isInBlacklist(r.getCustomerName())) {
             throw new NameOnBlacklistException();
         }
-
         if (!reservations.containsKey(r.getUuid())) {
             if(getFreeSeats(r.getEventUuid()) >= r.getSeats()) {
                 for (Reservation it : reservations.values()) {
@@ -25,6 +25,9 @@ public class ReservationService {
                         r.increaseSeats(it.getSeats());
                         reservations.remove(it.getUuid());
                     }
+                }
+                if(emailService != null && EventService.getEvents().get(r.getEventUuid()).getSeats() / 10 <= r.getSeats()){
+                    emailService.sendEmail(EventService.getEvents().get(r.getEventUuid()).getEmail());
                 }
                 reservations.put(r.getUuid(), r);
             } else {
@@ -56,6 +59,10 @@ public class ReservationService {
         }
 
         return freeSeats;
+    }
+
+    public static void setEmailService(EmailService es) {
+        emailService = es;
     }
 
     public static void reset() {
