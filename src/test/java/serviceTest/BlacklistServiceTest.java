@@ -34,6 +34,7 @@ public class BlacklistServiceTest {
         EventService.addEvent(e);
 
         Reservation r = new Reservation(c.getName(), e.getUuid(), 50);
+        ReservationService.setBlacklistService(blacklist);
         ReservationService.addReservation(r);
 
         // verify that mock was used
