@@ -12,21 +12,22 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class EventServiceTest {
+    private Event e;
 
     @Before
     public void reset() {
         EventService.reset();
+        String email = "test@test.de";
+        Integer freeSeats = 2000;
+        String name = "König der Löwen";
+        Double price = 129.99;
+        e = new Event(name, new Date(), price, freeSeats, email);
     }
 
     @Test
     public void addEvent() throws NotUniqueIdentifierException {
-        String name = "König der Löwen";
-        Double price = 129.99;
-        Integer freeSeats = 2000;
-
         assertEquals("Collection must be empty", 0, EventService.getEvents().size());
 
-        Event e = new Event(name, new Date(), price, freeSeats);
         EventService.addEvent(e);
 
         assertEquals("Odd number of elements in events collection", 1, EventService.getEvents().size());
@@ -38,11 +39,6 @@ public class EventServiceTest {
 
     @Test(expected = NotUniqueIdentifierException.class)
     public void addDuplicateEvent() throws NotUniqueIdentifierException {
-        String name = "König der Löwen";
-        Double price = 129.99;
-        Integer freeSeats = 2000;
-
-        Event e = new Event(name, new Date(), price, freeSeats);
         EventService.addEvent(e);
         EventService.addEvent(e);
     }

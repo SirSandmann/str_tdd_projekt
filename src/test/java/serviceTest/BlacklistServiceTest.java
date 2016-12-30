@@ -30,7 +30,7 @@ public class BlacklistServiceTest {
 
         when(blacklist.isInBlacklist(c.getName())).thenReturn(true);
 
-        Event e = new Event("Aufführung", new Date(), 59.99, 15000);
+        Event e = new Event("Aufführung", new Date(), 59.99, 15000, "test@test.de");
         EventService.addEvent(e);
 
         Reservation r = new Reservation(c.getName(), e.getUuid(), 50);

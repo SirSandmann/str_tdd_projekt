@@ -20,16 +20,23 @@ import service.ReservationService;
 
 public class ReservationServiceTest {
 
+    private Event e;
+
     @Before
     public void reset() {
         CustomerService.reset();
         EventService.reset();
         ReservationService.reset();
+
+        String email = "test@test.de";
+        Integer freeSeats = 2000;
+        String name = "König der Löwen";
+        Double price = 129.99;
+        e = new Event(name, new Date(), price, freeSeats, email);
     }
 
     @Test
     public void addReservation() throws Exception {
-        Event e = new Event("König der Löwen", new Date(), 129.99, 2000);
         EventService.addEvent(e);
         assertEquals("Odd number of elements in events collection", 1, EventService.getEvents().size());
         Event eGet = EventService.getEvents().get(e.getUuid());
@@ -51,7 +58,6 @@ public class ReservationServiceTest {
 
     @Test
     public void addDoubleReservation() throws Exception {
-        Event e = new Event("König der Löwen", new Date(), 129.99, 2000);
         EventService.addEvent(e);
         Event eGet = EventService.getEvents().get(e.getUuid());
 
@@ -77,7 +83,6 @@ public class ReservationServiceTest {
 
     @Test
     public void findReservation() throws Exception {
-        Event e = new Event("König der Löwen", new Date(), 129.99, 2000);
         EventService.addEvent(e);
         Event eGet = EventService.getEvents().get(e.getUuid());
 
@@ -94,7 +99,6 @@ public class ReservationServiceTest {
 
     @Test
     public void findNullReservation() throws Exception {
-        Event e = new Event("König der Löwen", new Date(), 129.99, 2000);
         EventService.addEvent(e);
         Event eGet = EventService.getEvents().get(e.getUuid());
 
@@ -111,7 +115,6 @@ public class ReservationServiceTest {
 
     @Test(expected = NotEnoughFreeSeatsException.class)
     public void rejectReservation() throws Exception {
-        Event e = new Event("König der Löwen", new Date(), 129.99, 2000);
         EventService.addEvent(e);
         Event eGet = EventService.getEvents().get(e.getUuid());
 
@@ -129,7 +132,6 @@ public class ReservationServiceTest {
 
     @Test
     public void getFreeSeats() throws Exception {
-        Event e = new Event("König der Löwen", new Date(), 129.99, 2000);
         EventService.addEvent(e);
         Event eGet = EventService.getEvents().get(e.getUuid());
 
@@ -148,7 +150,6 @@ public class ReservationServiceTest {
 
     @Test(expected = NotUniqueIdentifierException.class)
     public void addDuplicateReservation() throws Exception {
-        Event e = new Event("König der Löwen", new Date(), 129.99, 2000);
         EventService.addEvent(e);
         Event eGet = EventService.getEvents().get(e.getUuid());
 

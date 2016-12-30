@@ -9,16 +9,18 @@ public class Event {
     private Date date;
     private double price;
     private int seats;
+    private String email;
 
     public Event() {
     }
 
-    public Event(String title, Date date, double price, int seats) {
+    public Event(String title, Date date, double price, int seats, String email) {
         this.setTitle(title);
         this.setDate(date);
         this.setPrice(price);
         this.setSeats(seats);
         this.setUuid(UUID.randomUUID());
+        this.setEmail(email);
     }
 
     public UUID getUuid() {
@@ -61,11 +63,20 @@ public class Event {
         this.seats = seats;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public boolean equals(Event e) {
         return (e.getTitle().equals(this.title) &&
                 e.getDate().equals(this.date) &&
                 e.getPrice() == this.price &&
                 e.getSeats() == this.seats &&
+                e.getEmail().equals(this.email)&&
                 e.getUuid().equals(this.uuid));
     }
 }

@@ -58,9 +58,9 @@ public class PersistenceServiceTest {
         Double price = 129.99;
         Integer freeSeats = 2000;
 
-        Event e1 = new Event(name, new Date(), price, freeSeats);
-        Event e2 = new Event(name, new Date(), price, freeSeats);
-        Event e3 = new Event(name, new Date(), price, freeSeats);
+        Event e1 = new Event(name, new Date(), price, freeSeats, "test@test.de");
+        Event e2 = new Event(name, new Date(), price, freeSeats, "test@test.de");
+        Event e3 = new Event(name, new Date(), price, freeSeats, "test@test.de");
         EventService.addEvent(e1);
         EventService.addEvent(e2);
         EventService.addEvent(e3);
@@ -81,7 +81,7 @@ public class PersistenceServiceTest {
 
     @Test
     public void loadReservations() throws Exception {
-        Event e = new Event("König der Löwen", new Date(), 129.99, 2000);
+        Event e = new Event("König der Löwen", new Date(), 129.99, 2000, "test@test.de");
         EventService.addEvent(e);
         Event eGet = EventService.getEvents().get(e.getUuid());
 
