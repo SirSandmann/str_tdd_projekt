@@ -1,37 +1,42 @@
 package serviceTest;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
+import java.util.Date;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import service.BlacklistServiceMock;
+import custom_exceptions.NameOnBlacklistException;
+import model.Customer;
+import model.Event;
+import model.Reservation;
+import service.BlacklistService;
+import service.CustomerService;
+import service.EventService;
+import service.ReservationService;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BlacklistServiceTest {
-	
-	@Mock
-	BlacklistServiceMock blackListServiceMock;
 
-	@Test
-	public void testBlacklistServiceInBlacklist() throws Exception {
-		// get random customer on Blacklist
-		String blackListName = "BlackListName";
-		when(blackListServiceMock.isInBlacklist(blackListName)).thenReturn(true);
-		assertTrue("Service should return true", blackListServiceMock.isInBlacklist(blackListName));
-	}
-	
-	
-	@Test
-	public void testBlacklistServiceNotInBlacklist() throws Exception {
-		// get random customer not on the Blacklist
-		String nonBlackListName = "Peter GuterBesucher";
-		when(blackListServiceMock.isInBlacklist(nonBlackListName)).thenReturn(false);
-		assertFalse("Service should return false", blackListServiceMock.isInBlacklist(nonBlackListName));;
-	}
-	
+    @Test(expected = NameOnBlacklistException.class)
+    public void shouldRejectBlacklistedUser() throws Exception {
+        BlacklistService blacklist = mock(BlacklistService.class);
+        Customer c = new Customer("Provokateur", "some Address");
+        CustomerService.addCustomer(c);
+
+        when(blacklist.isInBlacklist(c.getName())).thenReturn(true);
+
+        Event e = new Event("Aufführung", new Date(), 59.99, 15000);
+        EventService.addEvent(e);
+
+        Reservation r = new Reservation(c.getName(), e.getUuid(), 50);
+        ReservationService.addReservation(r);
+
+        // verify that mock was used
+        verify(blacklist).isInBlacklist(c.getName());
+    }
 }

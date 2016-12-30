@@ -1,5 +1,6 @@
 package service;
 
+import custom_exceptions.NameOnBlacklistException;
 import custom_exceptions.NotEnoughFreeSeatsException;
 import custom_exceptions.NotUniqueIdentifierException;
 import model.Event;
@@ -10,7 +11,13 @@ import java.util.UUID;
 
 public class ReservationService {
     private static HashMap<UUID, Reservation> reservations = new HashMap<UUID, Reservation>();
-    public static void addReservation(Reservation r) throws NotUniqueIdentifierException, NotEnoughFreeSeatsException {
+    private static BlacklistService blacklist = new BlacklistService();
+
+    public static void addReservation(Reservation r) throws NotUniqueIdentifierException, NotEnoughFreeSeatsException, NameOnBlacklistException {
+        if(blacklist != null && blacklist.isInBlacklist(r.getCustomerName())) {
+            throw new NameOnBlacklistException();
+        }
+
         if (!reservations.containsKey(r.getUuid())) {
             if(getFreeSeats(r.getEventUuid()) >= r.getSeats()) {
                 for (Reservation it : reservations.values()) {

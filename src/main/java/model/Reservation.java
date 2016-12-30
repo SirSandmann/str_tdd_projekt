@@ -11,7 +11,7 @@ public class Reservation {
     public Reservation() {
     }
 
-    public Reservation(String customerName, UUID eventUuid, Integer seats) throws Exception {
+    public Reservation(String customerName, UUID eventUuid, Integer seats) {
         this.setUuid(UUID.randomUUID());
         this.setCustomerName(customerName);
         this.setEventUuid(eventUuid);
