@@ -1,6 +1,10 @@
 package serviceTest;
 
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
 import java.util.Date;
 
 import org.junit.Test;
@@ -16,11 +20,16 @@ import service.CustomerService;
 import service.EventService;
 import service.ReservationService;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-
 @RunWith(MockitoJUnitRunner.class)
 public class BlacklistServiceTest {
+	
+	@Test
+    public void isInBlacklist() throws Exception {
+		BlacklistService blacklistService = new BlacklistService();
+		assertTrue("Should not be null", blacklistService != null);
+		assertTrue(blacklistService.getClass().getMethod("isInBlacklist", String.class) != null);
+		
+    }
 
     @Test(expected = NameOnBlacklistException.class)
     public void shouldRejectBlacklistedUser() throws Exception {
