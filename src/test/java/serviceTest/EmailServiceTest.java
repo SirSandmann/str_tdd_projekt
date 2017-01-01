@@ -14,10 +14,19 @@ import service.*;
 
 import java.util.Date;
 
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class EmailServiceTest {
+	
+	@Test
+    public void sendEmail() throws Exception {
+		EmailService emailService = new EmailService();
+		assertTrue("Should not be null", emailService != null);
+		assertTrue(emailService.getClass().getMethod("sendEmail", String.class) != null);
+		
+    }
 
     @Test
     public void shouldSendEmail() throws NotUniqueIdentifierException, CustomerSameNameException, NotEnoughFreeSeatsException, NameOnBlacklistException {

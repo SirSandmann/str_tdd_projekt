@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class BlacklistService {
     private ArrayList<String> blacklist = new ArrayList<>();
 
-    BlacklistService() {
+    public BlacklistService() {
         blacklist.add("Miese Peter");
         blacklist.add("Ärgermacher");
         blacklist.add("Provokateur");
